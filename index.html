@@ -89,24 +89,27 @@
             /*position: absolute;*/
             color: white;
             bottom: 0;
-            left: 1.5em;
-            padding: 10px 20px;
-            font-size: 50px;
-            font-family: Calibri;
+            margin-bottom: 100px;
+            /*left: 1.5em;*/
+            /*padding: 10px 20px;*/
+            font-size: 40px;
+            font-family: Arial, Helvetica, sans-serif;
+            text-transform: uppercase;
             text-shadow: 2px 2px dimgrey;
         }
         h2 {
             color: white;
-            margin: auto 1em 1em;
-            font-size: 60px;
-            font-family: Calibri;
+            /*margin: auto 1em 1em;*/
+            margin-bottom: 100px;
+            font-size: 70px;
+            font-family: Arial;
             text-shadow: 2px 2px dimgrey;
         }
         ol,ul {
             list-style: none;
         }
         li {
-            margin: 20px;
+            margin-bottom: 40px;
             font: normal 35px calibri, serif;
         }
         a {
@@ -125,6 +128,18 @@
         a:hover {
             color: lightgray;
         }
+        #minicontactholder {
+            position: absolute;
+            bottom: 50px;
+            left: 50px;
+            background: rgba(128, 128, 128, 0.79);
+            padding: 10px;
+            border-radius: 10px;
+        }
+        .minicontact img {
+            width: 50px;
+            margin-left: 10px;
+        }
 
     </style>
 </head>
@@ -136,9 +151,13 @@
         <img src="Images/Platter.jpg" />
     </div>
     <div class="main">
-        <h1>Karl S Bayer</h1>
-        <h2>Art and Engineering</h2>
         <ul>
+            <li>
+                <h1>Karl S Bayer</h1>
+            </li>
+            <li>
+                <h2>Art and Engineering</h2>
+            </li>
             <li>
                 <a href="https://drive.google.com/open?id=0B-VrGdiUiGrndVZMaTNfWG1PM1k">Engineering Resume</a>
             </li>
@@ -152,10 +171,20 @@
                 <!--<a href="Projects.html">Projects</a>-->
             </li>
             <li>
-                <a id="contact" href="Contact.html">Contact</a>
+                <a id="contact" href="Contact.html">Connect</a>
             </li>
         </ul>
     </div>
-
+    <div id="minicontactholder">
+        <a class="minicontact" href="http://instagram.com/karlsbayer">
+            <img src="Icons/404570-instagram-logo.jpg" />
+        </a>
+        <a class="minicontact" href="https://github.com/kotton21">
+            <img src="Icons/github.png" />
+        </a>
+        <a class="minicontact" href="https://www.linkedin.com/in/karl-bayer-b03b0a18">
+            <img src="Icons/in.png" />
+        </a>
+    </div>
 </body>
 </html>

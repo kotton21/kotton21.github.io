@@ -1,0 +1,138 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <style>
+        html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td {
+            margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent; 
+        }
+        body {
+            /*padding: 2em 0;*/
+            line-height: 1;
+            /*margin: 0 auto;*/
+            /*width: 93.75%;*/
+            font: normal 100% Cambria, Georgia, serif;
+            -webkit-text-size-adjust: none;
+        }
+        
+        ol,ul {
+            list-style: none;
+        }
+        li {
+            margin: 10px;
+        }
+        a {
+            color: #890101;
+            text-decoration: none;
+            -moz-transition: 0.2s color linear;
+            -webkit-transition: 0.2s color linear;
+            transition: 0.2s color linear;
+        }
+        a:hover {
+            color: #DF3030;
+        }
+        .mast {
+            position: relative;
+            z-index: -1;
+            top: 0px;
+            left: 0px;
+            bottom: 0px;
+            content: " ";
+            width: 100%;
+            height: 500px;
+            background-size: cover;
+            /*position: fixed;*/ /* use this to make a fixed header...*/
+            background: linear-gradient(to top, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 30%), url("./images/CookieJar.jpg") no-repeat center;
+        }
+        .mast img {
+            /*top: 0px;*/
+            /*position: fixed;*/
+            max-width: 100%;
+            /*height: 100%;*/
+        }
+        .main {
+            z-index: 3;
+            /*float: right;*/
+            margin: 4em auto;
+            width: 85%;
+        }
+        h1 {
+            /*margin: auto 0 0;*/
+            position: absolute;
+            color: dimgray;
+            bottom: 0;
+            left: 1.5em;
+            padding: 10px 20px;
+            font-size: 60px;
+            font-family: Calibri;
+            text-shadow: 2px 2px rgba(137, 100, 100, 0.6);
+            /*background-color: lightgray;*/
+        }
+        h2 {
+            color: dimgray;
+            margin: auto 0 1em;
+            font-size: 40px;
+            font-family: Calibri;
+            text-shadow: 2px 2px rgba(137, 100, 100, 0.78);
+        }
+        .pagetext {
+            color: dimgray;
+            margin: auto 0 1em;
+            font-size: 35px;
+            font-family: Calibri;
+        }
+
+        .contact {
+            display: flex;
+            align-items: center;
+            font-size: 30px;
+        }
+        .contact img {
+            height: 100px;
+            margin-right: 2em;
+        }
+        /*Email obfuscation*/
+        .domain::before {
+            content: "\0040";
+        }
+        .reverse {
+            unicode-bidi: bidi-override;
+            direction: rtl;
+        }
+        .com::after {
+            content: "\002E"
+        }
+        .dummy {
+            display: none;
+        }
+        /*end email obvuscation*/ 
+
+    </style>
+</head>
+<body>
+
+<!--<div id="page">-->
+    <div class="mast">
+        <h1>Contact</h1>
+        <!--<img src="mugsquares/photography-setup-small.jpg">-->
+    </div>
+    <div class="main">
+        <p class="pagetext">Instagram and Email are currently the best ways to connect:</p>
+        <ul>
+            <li>
+                <a class="contact" href="http://www.instarank24.com/karlsbayer">
+                    <img src="Images/instagram-icon.png" />
+                    <span><b>Instagram:</b>  @karlsbayer</span>
+                </a>
+            </li>
+            <li>
+                <a class="contact" href="http://www.google.com/recaptcha/mailhide/d?k=01n9heZC4Uoc9YJXpXd19JWQ==&c=V8HUjYbhkSBCZ9pM61JOb2mKa_77V7oYdCga97Dq_8A=" onclick="window.open('http://www.google.com/recaptcha/mailhide/d?k\x3d01n9heZC4Uoc9YJXpXd19JWQ\x3d\x3d\x26c\x3dV8HUjYbhkSBCZ9pM61JOb2mKa_77V7oYdCga97Dq_8A\x3d', '', 'toolbar=0,scrollbars=0,location=0,statusbar=0,menubar=0,resizable=0,width=500,height=300'); return false;" title="Reveal this e-mail address">
+                    <img src="Images/mail-128.png" />
+                    <span><b>Email:</b>  k...<span class="domain">gma</span>il<span class="com reverse">oc</span>m</span>
+                </a>
+            </li>
+        </ul>
+        
+	</div>
+</body>
+</html>

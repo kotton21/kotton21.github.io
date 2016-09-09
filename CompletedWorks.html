@@ -1,0 +1,242 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <style>
+        html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td {
+            margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent; 
+        }
+        body {
+            /*padding: 2em 0;*/
+            line-height: 1;
+            /*margin: 0 auto;*/
+            /*width: 93.75%;*/
+            font: normal 100% Cambria, Georgia, serif;
+            -webkit-text-size-adjust: none;
+        }
+        /*#page {
+            padding: 2em 0;
+        }*/
+        /*.inner {
+            margin: 2em auto;
+            width: 90%;
+        }*/
+        
+        ol,ul {
+            list-style: none;
+        }
+        a {
+            color: #890101;
+            text-decoration: none;
+            -moz-transition: 0.2s color linear;
+            -webkit-transition: 0.2s color linear;
+            transition: 0.2s color linear;
+        }
+        a:hover {
+            color: #DF3030;
+        }
+        .mast {
+            position: relative;
+            z-index: -1;
+            top: 0px;
+            left: 0px;
+            bottom: 0px;
+            content: " ";
+            width: 100%;
+            height: 500px;
+            background-size: cover;
+            /*position: fixed;*/ /* use this to make a fixed header...*/
+            background: linear-gradient(to top, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 30%), url("./images/photography-setup-small.jpg") no-repeat center;
+        }
+        .mast img {
+            /*top: 0px;*/
+            /*position: fixed;*/
+            max-width: 100%;
+            /*height: 100%;*/
+        }
+        /*.grad {*/
+            /*content: "stuff";
+            width: 100%;
+            height: 100%;*/
+            /*position: absolute;*/
+            /*z-index: 1;
+            top: 0;
+            left: 0;
+            bottom: 0;*/
+            /*background: linear-gradient(to top, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 100%); /*  W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+            /*background: linear-gradient(to top, rgba(255,255,255,0.2) 0%,rgba(0,0,0,0.5) 90%), url('images/CookieJar.jpg') repeat;*/
+        /*}*/
+        .main {
+            z-index: 3;
+            /*float: right;*/
+            margin: 4em auto;
+            width: 85%;
+        }
+        /*.main::before {
+            height: 500px;
+            width: 100%;
+            top: -500px;
+            left: 0px;
+            z-index: -1;
+            background: linear-gradient(to top, rgba(255,255,255,1) 0%, rgba(255,0,0,1) 30%);
+        }*/
+        /*img {
+            max-width: 100%; /* 100% of container size!! 
+        }*/
+        .c1 {
+            margin-right: 0;
+        }
+        .c2 {
+            margin-right: 0;
+        }
+        .c3 {
+            margin-right: 0;
+        }
+        
+        .figure {
+            float: left;
+            font-size: 20px;
+            margin: 0 3.5% 1.5em 0;
+            width: 31%;
+        }
+        .figure img {
+            -webkit-border-radius: 6px;
+            -moz-border-radius: 6px;
+            border-radius: 6px;
+            display: inline-block;
+            margin: 0 auto 10px;
+            max-width: 100%;
+            -webkit-box-shadow: 0 4px 4px rgba(0, 0, 0, .5);
+            -moz-box-shadow: 0 4px 4px rgba(0, 0, 0, .5);
+            box-shadow: 0 4px 4px rgba(0, 0, 0, .5);
+        }
+        h1 {
+            /*margin: auto 0 0;*/
+            position: absolute;
+            color: dimgray;
+            bottom: 0;
+            left: 1.5em;
+            padding: 10px 20px;
+            font-size: 50px;
+            font-family: Calibri;
+            text-shadow: 2px 2px rgba(137, 100, 100, 0.78);
+            /*background-color: lightgray;*/
+        }
+        h2 {
+            color: dimgray;
+            margin: auto 0 1em;
+            font-size: 40px;
+            font-family: Calibri;
+            text-shadow: 2px 2px rgba(137, 100, 100, 0.78);
+        }
+
+        /*li {
+            /*border-top: %; solid #00F9EF;*/
+            /*padding-top: 1.25em;*/
+            /*height: 10%;*/
+        /*}*/
+        @media (min-width: 800px) {
+            .c3 {
+                margin-right: 0;
+            }
+        }
+        @media (max-width: 800px) {
+            .figure {
+                margin-right: 4%;	/* 21px / 633px */
+                width: 48%;	/* 306px / 633px */
+            }
+            .c2 {
+                margin-right: 0;
+            }
+            /*li#f-watson,
+            li#f-moriarty {
+                margin-right: 0;
+            }*/
+        }
+        @media (max-width: 600px) {
+            .figure {
+                margin-right: 0;	/* 21px / 633px */
+                width: 100%;	/* 306px / 633px */
+            }
+            /*li#f-watson,
+            li#f-moriarty {
+                margin-right: 0;
+            }*/
+        }
+    </style>
+</head>
+<body>
+
+<!--<div id="page">-->
+    <div class="mast">
+        <h1>Completed Works!</h1>
+        <!--<img src="images/photography-setup-small.jpg">-->
+    </div>
+    <div class="main">
+        <h2>2016:</h2>
+        <ul>
+            <li class="figure c1">
+                <a href="images/CookieJar.jpg">
+                    <img src="images/CookieJar.jpg" alt />
+                    <span class="figcaption">This is a <b>description</b></span>
+                </a>
+            </li>
+            <li class="figure c2">
+                <a href="images/AshSoot.jpg">
+                    <img src="images/AshSoot.jpg" alt />
+                    <span class="figcaption">This is a <b>description</b></span>
+                </a>
+            </li>
+            <li class="figure c3">
+                <a href="images/GreekSplatter.jpg">
+                    <img src="images/GreekSplatter.jpg" alt />
+                    <span class="figcaption"><b>UNAVAILABLE</b><br/>Gas reduction fired</span>
+                </a>
+            </li>
+            <li class="figure c2">
+                <a href="images/Bowls.jpg">
+                    <img src="images/Bowls.jpg" alt />
+                    <span class="figcaption">This is a <b>description</b></span>
+                </a>
+            </li>
+        </ul>
+        <h2>2015:</h2>
+        <ul>
+            <li class="figure c1">
+                <a href="images/Platter.jpg">
+                    <img src="images/Platter.jpg" alt />
+                    <span class="figcaption">This is a <b>description</b></span>
+                </a>
+            </li>
+            <li class="figure c2 c3">
+                <a href="images/GreekSplatter.jpg">
+                    <img src="images/GreekSplatter.jpg" alt />
+                    <span class="figcaption">This is a <b>description</b></span>
+                </a>
+            </li>
+            <li class="figure c1">
+                <a href="images/AshSoot.jpg">
+                    <img src="images/AshSoot.jpg" alt />
+                    <span class="figcaption">This is a <b>description</b></span>
+                </a>
+            </li>
+        </ul>
+        <h2>2014:</h2>
+        <ul>
+            <li class="figure c2">
+                <a href="images/Bowls.jpg">
+                    <img src="images/Bowls.jpg" alt />
+                    <span class="figcaption">This is a <b>description</b></span>
+                </a>
+            </li>
+            <li class="figure c3">
+                <a href="images/CookieJar.jpg">
+                    <img src="images/CookieJar.jpg" alt />
+                    <span class="figcaption">This is a <b>description</b></span>
+                </a>
+            </li>
+        </ul>
+	</div>
+<!--</div>-->
+</body>
+</html>

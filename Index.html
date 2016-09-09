@@ -1,0 +1,117 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <style>
+    
+        * {
+            padding: 0;
+            margin: 0;
+        }
+        body {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+        @keyframes cf4FadeInOut {
+          0% {
+            opacity:1;
+          }
+          17% {
+            opacity:1;
+          }
+          25% {
+            opacity:0;
+          }
+          92% {
+            opacity:0;
+          }
+          100% {
+            opacity:1;
+          }
+        }
+        #cf4a {
+            /*display: block;*/ /* this doesn't seem to matter. */
+            position: absolute; /* this is important for the 'image cliping' capability */
+            /*height: 281px;*/
+            width: 100%;
+            height: 100%;
+            /*margin: 0 auto;*/
+            overflow: hidden; /* this is important for the 'image cliping' capability */
+        }
+        #cf4a img {
+            /*display: inline;*/ /* i really don't know what this is for*/
+            /*max-width: 100%;
+            max-height: 100%;*/ /* removed in favor of media queries */
+            position: absolute;  /*needed for the animation, places images over each other*/
+            margin-top: auto; /*supposed to be for the image centering*/
+            overflow: hidden; /* to try to hid the images outside the div */
+        }
+        #cf4a img {
+            animation-name: cf4FadeInOut;
+            animation-timing-function: ease-in-out;
+            animation-iteration-count: infinite;
+            animation-duration: 8s;
+        }
+        /*div {
+            display: block;
+        }*/
+
+        #cf4a img:nth-of-type(1) {
+          animation-delay: 6s;
+        }
+        #cf4a img:nth-of-type(2) {
+          animation-delay: 4s;
+        }
+        #cf4a img:nth-of-type(3) {
+          animation-delay: 2s;
+        }
+        #cf4a img:nth-of-type(4) {
+          animation-delay: 0;
+        }
+        @media (orientation: landscape) {
+            #cf4a img {
+                width: 100%;
+            }
+        }
+        @media (orientation: portrait) {
+            #cf4a img {
+                height: 100%;
+            }
+        }
+
+        .main {
+            /*display: block;*/
+            margin: 3% 3%;
+            position: absolute;
+        }
+        h1 {
+            font-size: xx-large;
+        }
+        h2 {
+            font-size: x-large;
+        }
+        a {
+
+        }
+    </style>
+</head>
+<body>
+    <div id="cf4a">
+        <img src="Images/GreekSplatter.jpg" />
+        <img src="Images/CookieJar.jpg" />
+        <img src="Images/Bowls.jpg" />
+        <img src="Images/Platter.jpg" />
+    </div>
+    <div class="main">
+        <h1>Karl S Bayer</h1>
+        <h2>Art and Engineering</h2>
+        <a href="https://drive.google.com/open?id=0B-VrGdiUiGrndVZMaTNfWG1PM1k">Engineering Resume</a>
+        <a href="MugShots.html">Mug Shots!</a>
+        <a href="CompletedWorks.html">Completed Works</a>
+        <!--<a href="Projects.html">Projects</a>-->
+        <a href="Contact.html">Contact</a>
+    </div>
+
+</body>
+</html>

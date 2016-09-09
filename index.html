@@ -86,14 +86,46 @@
             position: absolute;
         }
         h1 {
-            font-size: xx-large;
+            /*position: absolute;*/
+            color: white;
+            bottom: 0;
+            left: 1.5em;
+            padding: 10px 20px;
+            font-size: 50px;
+            font-family: Calibri;
+            text-shadow: 2px 2px dimgrey;
         }
         h2 {
-            font-size: x-large;
+            color: white;
+            margin: auto 1em 1em;
+            font-size: 60px;
+            font-family: Calibri;
+            text-shadow: 2px 2px dimgrey;
+        }
+        ol,ul {
+            list-style: none;
+        }
+        li {
+            margin: 20px;
+            font: normal 35px calibri, serif;
         }
         a {
-
+            color: white;
+            text-decoration: none;
+            -moz-transition: 0.2s color linear;
+            -webkit-transition: 0.2s color linear;
+            transition: 0.2s color linear;
         }
+        #contact {
+            border-style: solid;
+            border-color: white;
+            border-radius: 10px;
+            padding: 5px 15px;
+        }
+        a:hover {
+            color: lightgray;
+        }
+
     </style>
 </head>
 <body>
@@ -106,11 +138,23 @@
     <div class="main">
         <h1>Karl S Bayer</h1>
         <h2>Art and Engineering</h2>
-        <a href="https://drive.google.com/open?id=0B-VrGdiUiGrndVZMaTNfWG1PM1k">Engineering Resume</a>
-        <a href="MugShots.html">Mug Shots!</a>
-        <a href="CompletedWorks.html">Completed Works</a>
-        <!--<a href="Projects.html">Projects</a>-->
-        <a href="Contact.html">Contact</a>
+        <ul>
+            <li>
+                <a href="https://drive.google.com/open?id=0B-VrGdiUiGrndVZMaTNfWG1PM1k">Engineering Resume</a>
+            </li>
+            <li>
+                <a href="MugShots.html">Mug Shots!</a>
+            </li>
+            <li>
+                <a href="CompletedWorks.html">Completed Works</a>
+            </li>
+            <li>
+                <!--<a href="Projects.html">Projects</a>-->
+            </li>
+            <li>
+                <a id="contact" href="Contact.html">Contact</a>
+            </li>
+        </ul>
     </div>
 
 </body>

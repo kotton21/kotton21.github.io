@@ -40,10 +40,11 @@
             overflow: hidden; /* this is important for the 'image cliping' capability */
         }
         #cf4a img {
-            /*display: inline;*/ /* i really don't know what this is for*/
+            display: block; /* i really don't know what this is for*/
             /*max-width: 100%;
             max-height: 100%;*/ /* removed in favor of media queries */
             position: absolute;  /*needed for the animation, places images over each other*/
+            margin-left: auto;
             margin-top: auto; /*supposed to be for the image centering*/
             overflow: hidden; /* to try to hid the images outside the div */
         }
@@ -146,7 +147,7 @@
 </head>
 <body>
     <div id="cf4a">
-        <img src="Images/IMG_3076_main.jpg" />
+        <img src="Images/IMG_3076_main_s.jpg" />
         <img src="Images/IMG_3120_main.jpg" />
         <img src="Images/IMG_3153_main.jpg" />
         <img src="Images/IMG_3203_main.jpg" />

@@ -1,0 +1,7 @@
+name: astro-portfolio
+channels:
+  - conda-forge
+  - nodejs
+dependencies:
+  - nodejs=24.8.0
+  - npm=10.8.1

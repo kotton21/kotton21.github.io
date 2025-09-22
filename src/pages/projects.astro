@@ -1,0 +1,155 @@
+---
+import { getCollection } from 'astro:content';
+import ProjectCard from '../components/ProjectCard.astro';
+import Header from '../components/Header.astro';
+
+const projects = await getCollection('projects');
+
+// Sort projects by sortOrder (lower numbers first), then by slug for duplicates
+const sortedProjects = projects.sort((a, b) => {
+  // If both have sortOrder, sort by that (lower numbers first)
+  if (a.data.sortOrder !== undefined && b.data.sortOrder !== undefined) {
+    if (a.data.sortOrder !== b.data.sortOrder) {
+      return a.data.sortOrder - b.data.sortOrder;
+    }
+  }
+  
+  // If only one has sortOrder, prioritize it
+  if (a.data.sortOrder !== undefined && b.data.sortOrder === undefined) {
+    return -1; // a comes first
+  }
+  if (a.data.sortOrder === undefined && b.data.sortOrder !== undefined) {
+    return 1; // b comes first
+  }
+  
+  // If neither has sortOrder, or they're equal, sort by slug
+  return a.slug.localeCompare(b.slug);
+});
+
+// All projects in one list
+const allProjects = sortedProjects;
+---
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="viewport" content="width=device-width" />
+		<meta name="generator" content={Astro.generator} />
+		<title>Projects - Portfolio</title>
+	</head>
+	<body>
+		<Header currentPage="projects" />
+		<main class="main-content">
+
+			<!-- Page Header -->
+			<header class="page-header">
+				<h1>All Projects</h1>
+				<p class="page-description">
+					A collection of my creative work, from custom arcade cabinets to van conversions. 
+					Each project represents a unique challenge and learning opportunity.
+				</p>
+			</header>
+
+			<!-- Complete Projects -->
+			<section class="project-section">
+				<div class="projects-grid">
+					{allProjects.map((project) => (
+						<ProjectCard project={project} />
+					))}
+				</div>
+			</section>
+		</main>
+		
+		<style>
+			:root {
+				--card-radius: 0.5rem;
+				--accent-color: #3b82f6;
+				--grid-gap: 1rem;
+				--card-min-width: 300px;
+				--section-spacing: 4rem;
+			}
+			
+			* {
+				margin: 0;
+				padding: 0;
+				box-sizing: border-box;
+			}
+			
+			body {
+				font-family: system-ui, sans-serif;
+				background: #0f0f0f;
+				color: #ffffff;
+				line-height: 1.6;
+			}
+			
+			.main-content {
+				max-width: 1200px;
+				margin: 0 auto;
+				padding: 6rem 2rem 0 2rem;
+			}
+
+			/* Page Header */
+			.page-header {
+				text-align: center;
+				margin-bottom: var(--section-spacing);
+			}
+
+			.page-header h1 {
+				font-size: 3rem;
+				font-weight: 700;
+				margin-bottom: 1rem;
+				background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+				-webkit-background-clip: text;
+				-webkit-text-fill-color: transparent;
+				background-clip: text;
+			}
+
+			.page-description {
+				font-size: 1.2rem;
+				color: #cccccc;
+				max-width: 600px;
+				margin: 0 auto;
+			}
+
+			/* Project Sections */
+			.project-section {
+				margin-bottom: var(--section-spacing);
+			}
+
+			.project-section h2 {
+				font-size: 2rem;
+				font-weight: 600;
+				margin-bottom: 2rem;
+				color: #ffffff;
+				border-bottom: 2px solid var(--accent-color);
+				padding-bottom: 0.5rem;
+				display: inline-block;
+			}
+			
+			.projects-grid {
+				display: grid;
+				grid-template-columns: repeat(auto-fill, minmax(var(--card-min-width), 1fr));
+				gap: var(--grid-gap);
+			}
+			
+			@media (max-width: 768px) {
+				.main-content {
+					padding: 5rem 1rem 0 1rem;
+				}
+				
+				.page-header h1 {
+					font-size: 2.5rem;
+				}
+
+				.page-description {
+					font-size: 1.1rem;
+				}
+
+				.project-section h2 {
+					font-size: 1.5rem;
+				}
+			}
+		</style>
+	</body>
+</html>

@@ -1,0 +1,502 @@
+
+---
+export interface Props {
+  project: any;
+}
+
+const { project } = Astro.props;
+const { data } = project;
+
+// Get all media items for gallery
+const allMedia = data.media || [];
+---
+
+<article class="project-detail gallery">
+  <header class="project-header">
+    <h1>{data.title}</h1>
+    {data.blurb && <p class="project-blurb">{data.blurb}</p>}
+    {data.date && <time class="project-date">{new Date(data.date).toLocaleDateString()}</time>}
+  </header>
+  
+  <div class="project-content">
+    <div class="project-description">
+      <slot />
+    </div>
+    
+    {data.links && data.links.length > 0 && (
+      <div class="project-links">
+        <h3>Links</h3>
+        <div class="links-list">
+          {data.links.map((link) => (
+            <a href={link.url} target="_blank" class="project-link">
+              {link.label}
+            </a>
+          ))}
+        </div>
+      </div>
+    )}
+    
+    {allMedia.length > 0 && (
+      <div class="project-media">
+        <h3>Gallery</h3>
+        <div class="gallery-grid">
+          {allMedia.map((media, index) => (
+            <div class="gallery-item" data-index={index} data-type={media.type} data-src={media.src} data-alt={media.alt || data.title}>
+              {media.type === 'video' ? (
+                <video 
+                  src={media.src} 
+                  controls 
+                  muted
+                  onmouseover="this.play()"
+                  onmouseout="this.pause()"
+                >
+                  Your browser does not support the video tag.
+                </video>
+              ) : (
+                <img src={media.src} alt={media.alt || data.title} />
+              )}
+              {media.caption && <p class="media-caption">{media.caption}</p>}
+            </div>
+          ))}
+        </div>
+      </div>
+    )}
+  </div>
+</article>
+
+<!-- Lightbox Modal -->
+<div id="lightbox" class="lightbox">
+  <div class="lightbox-content">
+    <button class="lightbox-close">&times;</button>
+    <button class="lightbox-prev">&lt;</button>
+    <button class="lightbox-next">&gt;</button>
+    <div class="lightbox-media">
+      <img id="lightbox-image" style="display: none;" />
+      <video id="lightbox-video" style="display: none;" controls></video>
+    </div>
+    <div class="lightbox-caption" id="lightbox-caption"></div>
+  </div>
+</div>
+
+<script is:inline>
+  console.log('Gallery template script loading...');
+  
+  let currentMediaIndex = 0;
+  let allMedia = [];
+  
+  function openLightbox(type, src, alt, index) {
+    console.log('openLightbox called with:', type, src, alt, index);
+    currentMediaIndex = index;
+    allMedia = Array.from(document.querySelectorAll('.gallery-item')).map((item, i) => {
+      const img = item.querySelector('img');
+      const video = item.querySelector('video');
+      const caption = item.querySelector('.media-caption');
+      
+      if (img) {
+        return {
+          type: 'image',
+          src: img.src,
+          alt: img.alt,
+          caption: caption ? caption.textContent : ''
+        };
+      } else if (video) {
+        return {
+          type: 'video',
+          src: video.src,
+          alt: video.alt || 'Video',
+          caption: caption ? caption.textContent : ''
+        };
+      }
+      return null;
+    }).filter(Boolean);
+    
+    console.log('All media:', allMedia);
+    
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImage = document.getElementById('lightbox-image');
+    const lightboxVideo = document.getElementById('lightbox-video');
+    const lightboxCaption = document.getElementById('lightbox-caption');
+    
+    console.log('Lightbox elements:', { lightbox, lightboxImage, lightboxVideo, lightboxCaption });
+    
+    if (type === 'image') {
+      lightboxImage.src = src;
+      lightboxImage.alt = alt;
+      lightboxImage.style.display = 'block';
+      lightboxVideo.style.display = 'none';
+    } else if (type === 'video') {
+      lightboxVideo.src = src;
+      lightboxVideo.style.display = 'block';
+      lightboxImage.style.display = 'none';
+      // Autoplay video when opened in lightbox
+      lightboxVideo.play().catch(e => console.log('Autoplay failed:', e));
+    }
+    
+    lightboxCaption.textContent = alt;
+    lightbox.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+    
+    console.log('Lightbox should now be visible');
+  }
+  
+  function closeLightbox() {
+    console.log('Closing lightbox');
+    const lightbox = document.getElementById('lightbox');
+    const lightboxVideo = document.getElementById('lightbox-video');
+    
+    lightbox.style.display = 'none';
+    document.body.style.overflow = 'auto';
+    
+    // Pause video when closing
+    if (lightboxVideo.src) {
+      lightboxVideo.pause();
+    }
+  }
+  
+  function prevMedia() {
+    if (currentMediaIndex > 0) {
+      currentMediaIndex--;
+      const media = allMedia[currentMediaIndex];
+      openLightbox(media.type, media.src, media.alt, currentMediaIndex);
+    }
+  }
+  
+  function nextMedia() {
+    if (currentMediaIndex < allMedia.length - 1) {
+      currentMediaIndex++;
+      const media = allMedia[currentMediaIndex];
+      openLightbox(media.type, media.src, media.alt, currentMediaIndex);
+    }
+  }
+  
+  // Initialize event listeners when DOM is ready
+  document.addEventListener('DOMContentLoaded', function() {
+    console.log('Gallery template: DOM loaded, setting up lightbox');
+    
+    // Add click listeners to gallery items
+    const galleryItems = document.querySelectorAll('.gallery-item');
+    console.log('Found gallery items:', galleryItems.length);
+    
+    galleryItems.forEach((item, index) => {
+      item.addEventListener('click', function(e) {
+        e.preventDefault();
+        console.log('Gallery item clicked:', index);
+        const type = this.dataset.type;
+        const src = this.dataset.src;
+        const alt = this.dataset.alt;
+        console.log('Opening lightbox with:', type, src, alt);
+        openLightbox(type, src, alt, index);
+      });
+    });
+    
+    // Add click listeners to lightbox controls
+    const lightbox = document.querySelector('.lightbox');
+    const lightboxContent = document.querySelector('.lightbox-content');
+    const lightboxClose = document.querySelector('.lightbox-close');
+    const lightboxPrev = document.querySelector('.lightbox-prev');
+    const lightboxNext = document.querySelector('.lightbox-next');
+    
+    if (lightbox) {
+      lightbox.addEventListener('click', function(e) {
+        if (e.target === this) {
+          closeLightbox();
+        }
+      });
+    }
+    
+    if (lightboxContent) {
+      lightboxContent.addEventListener('click', function(e) {
+        e.stopPropagation();
+      });
+    }
+    
+    if (lightboxClose) {
+      lightboxClose.addEventListener('click', closeLightbox);
+    }
+    
+    if (lightboxPrev) {
+      lightboxPrev.addEventListener('click', prevMedia);
+    }
+    
+    if (lightboxNext) {
+      lightboxNext.addEventListener('click', nextMedia);
+    }
+    
+    // Keyboard navigation
+    document.addEventListener('keydown', function(e) {
+      const lightbox = document.getElementById('lightbox');
+      if (lightbox && lightbox.style.display === 'flex') {
+        if (e.key === 'Escape') {
+          closeLightbox();
+        } else if (e.key === 'ArrowLeft') {
+          prevMedia();
+        } else if (e.key === 'ArrowRight') {
+          nextMedia();
+        }
+      }
+    });
+  });
+</script>
+
+<style>
+  .project-detail {
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+  
+  .project-header {
+    text-align: center;
+    margin-bottom: 3rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid #333;
+  }
+  
+  h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: #ffffff;
+  }
+  
+  .project-blurb {
+    font-size: 1.2rem;
+    color: #cccccc;
+    margin-bottom: 1rem;
+  }
+  
+  .project-date {
+    color: #888;
+    font-size: 0.9rem;
+  }
+  
+  .project-content {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+  }
+  
+  .project-description {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: #e5e5e5;
+  }
+  
+  .project-description :global(h2) {
+    font-size: 1.5rem;
+    margin: 2rem 0 1rem 0;
+    color: var(--accent-color, #3b82f6);
+  }
+  
+  .project-description :global(h3) {
+    font-size: 1.25rem;
+    margin: 1.5rem 0 0.75rem 0;
+    color: #ffffff;
+  }
+  
+  .project-description :global(p) {
+    margin-bottom: 1rem;
+  }
+  
+  .project-links h3,
+  .project-media h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: var(--accent-color, #3b82f6);
+  }
+  
+  .links-list {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  
+  .project-link {
+    display: inline-block;
+    background: var(--accent-color, #3b82f6);
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    text-decoration: none;
+    font-weight: 500;
+    transition: background 0.2s;
+  }
+  
+  .project-link:hover {
+    background: #2563eb;
+  }
+  
+  /* Gallery-specific styles */
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+  }
+  
+  .gallery-item {
+    background: #1a1a1a;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    border: 1px solid #333;
+    transition: transform 0.2s;
+    cursor: pointer;
+  }
+  
+  .gallery-item:hover {
+    transform: scale(1.02);
+  }
+  
+  /* Lightbox Styles */
+  .lightbox {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .lightbox-content {
+    position: relative;
+    max-width: 90vw;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .lightbox-media {
+    max-width: 90vw;
+    max-height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .lightbox-media img,
+  .lightbox-media video {
+    max-width: 90vw;
+    max-height: 80vh;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    object-position: center;
+  }
+  
+  .lightbox-caption {
+    color: white;
+    text-align: center;
+    margin-top: 1rem;
+    font-size: 1rem;
+  }
+  
+  .lightbox-close {
+    position: absolute;
+    top: -40px;
+    right: 0;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 2rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    z-index: 1001;
+  }
+  
+  .lightbox-prev,
+  .lightbox-next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: white;
+    font-size: 2rem;
+    cursor: pointer;
+    padding: 1rem;
+    border-radius: 50%;
+    transition: background 0.2s;
+    z-index: 1001;
+  }
+  
+  .lightbox-prev {
+    left: -60px;
+  }
+  
+  .lightbox-next {
+    right: -60px;
+  }
+  
+  .lightbox-prev:hover,
+  .lightbox-next:hover {
+    background: rgba(255, 255, 255, 0.3);
+  }
+  
+  .gallery-item img,
+  .gallery-item video {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    display: block;
+  }
+  
+  .media-caption {
+    padding: 0.75rem;
+    font-size: 0.85rem;
+    color: #cccccc;
+    margin: 0;
+  }
+  
+  @media (max-width: 768px) {
+    h1 {
+      font-size: 2rem;
+    }
+    
+    .project-blurb {
+      font-size: 1.1rem;
+    }
+    
+    .gallery-grid {
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 0.75rem;
+    }
+    
+    .gallery-item img,
+    .gallery-item video {
+      height: 150px;
+    }
+    
+    /* Mobile lightbox adjustments */
+    .lightbox-content {
+      max-width: 95vw;
+      max-height: 95vh;
+    }
+    
+    .lightbox-media {
+      max-width: 95vw;
+      max-height: 70vh;
+    }
+    
+    .lightbox-prev,
+    .lightbox-next {
+      font-size: 1.5rem;
+      padding: 0.75rem;
+    }
+    
+    .lightbox-prev {
+      left: -50px;
+    }
+    
+    .lightbox-next {
+      right: -50px;
+    }
+    
+    .lightbox-close {
+      top: -35px;
+      font-size: 1.5rem;
+    }
+  }
+</style>

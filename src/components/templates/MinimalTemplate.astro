@@ -1,0 +1,171 @@
+---
+export interface Props {
+  project: any;
+}
+
+const { project } = Astro.props;
+const { data } = project;
+---
+
+<article class="project-detail minimal">
+  <header class="project-header">
+    <h1>{data.title}</h1>
+    {data.blurb && <p class="project-blurb">{data.blurb}</p>}
+    {data.date && <time class="project-date">{new Date(data.date).toLocaleDateString()}</time>}
+  </header>
+  
+  <div class="project-content">
+    <div class="project-description">
+      <slot />
+    </div>
+    
+    {data.links && data.links.length > 0 && (
+      <div class="project-links">
+        <h3>Links</h3>
+        <div class="links-list">
+          {data.links.map((link) => (
+            <a href={link.url} target="_blank" class="project-link">
+              {link.label}
+            </a>
+          ))}
+        </div>
+      </div>
+    )}
+  </div>
+</article>
+
+<style>
+  .project-detail {
+    max-width: 700px;
+    margin: 0 auto;
+  }
+  
+  .project-header {
+    text-align: center;
+    margin-bottom: 4rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid #333;
+  }
+  
+  h1 {
+    font-size: 3rem;
+    font-weight: 300;
+    margin-bottom: 1.5rem;
+    color: #ffffff;
+    letter-spacing: -0.02em;
+  }
+  
+  .project-blurb {
+    font-size: 1.3rem;
+    color: #cccccc;
+    margin-bottom: 1rem;
+    font-weight: 300;
+  }
+  
+  .project-date {
+    color: #888;
+    font-size: 0.9rem;
+    font-weight: 300;
+  }
+  
+  .project-content {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+  }
+  
+  .project-description {
+    font-size: 1.2rem;
+    line-height: 1.8;
+    color: #e5e5e5;
+    font-weight: 300;
+  }
+  
+  .project-description :global(h2) {
+    font-size: 1.8rem;
+    margin: 3rem 0 1.5rem 0;
+    color: var(--accent-color, #3b82f6);
+    font-weight: 400;
+  }
+  
+  .project-description :global(h3) {
+    font-size: 1.4rem;
+    margin: 2rem 0 1rem 0;
+    color: #ffffff;
+    font-weight: 400;
+  }
+  
+  .project-description :global(p) {
+    margin-bottom: 1.5rem;
+  }
+  
+  .project-description :global(ul), 
+  .project-description :global(ol) {
+    margin: 1.5rem 0;
+    padding-left: 2rem;
+  }
+  
+  .project-description :global(li) {
+    margin-bottom: 0.75rem;
+  }
+  
+  .project-description :global(blockquote) {
+    border-left: 3px solid var(--accent-color, #3b82f6);
+    padding-left: 1.5rem;
+    margin: 2rem 0;
+    font-style: italic;
+    color: #cccccc;
+  }
+  
+  .project-links h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: var(--accent-color, #3b82f6);
+    font-weight: 400;
+  }
+  
+  .links-list {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  
+  .project-link {
+    display: inline-block;
+    background: transparent;
+    color: var(--accent-color, #3b82f6);
+    padding: 0.75rem 1.5rem;
+    border: 2px solid var(--accent-color, #3b82f6);
+    border-radius: 0.5rem;
+    text-decoration: none;
+    font-weight: 400;
+    transition: all 0.2s;
+  }
+  
+  .project-link:hover {
+    background: var(--accent-color, #3b82f6);
+    color: white;
+  }
+  
+  @media (max-width: 768px) {
+    h1 {
+      font-size: 2.5rem;
+    }
+    
+    .project-blurb {
+      font-size: 1.2rem;
+    }
+    
+    .project-description {
+      font-size: 1.1rem;
+    }
+    
+    .links-list {
+      flex-direction: column;
+    }
+    
+    .project-link {
+      text-align: center;
+    }
+  }
+</style>

@@ -1,0 +1,103 @@
+---
+import DefaultTemplate from '../components/templates/DefaultTemplate.astro';
+import GalleryTemplate from '../components/templates/GalleryTemplate.astro';
+import VideoFirstTemplate from '../components/templates/VideoFirstTemplate.astro';
+import CaseStudyTemplate from '../components/templates/CaseStudyTemplate.astro';
+import MinimalTemplate from '../components/templates/MinimalTemplate.astro';
+
+export interface Props {
+  project: any;
+}
+
+const { project } = Astro.props;
+const { data } = project;
+
+// Select template based on project data
+const getTemplate = () => {
+  switch (data.template) {
+    case 'gallery':
+      return GalleryTemplate;
+    case 'videoFirst':
+      return VideoFirstTemplate;
+    case 'caseStudy':
+      return CaseStudyTemplate;
+    case 'minimal':
+      return MinimalTemplate;
+    default:
+      return DefaultTemplate;
+  }
+};
+
+const Template = getTemplate();
+---
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="viewport" content="width=device-width" />
+		<meta name="generator" content={Astro.generator} />
+		<title>{data.title} - Portfolio</title>
+	</head>
+	<body>
+		<main>
+			<header>
+				<nav>
+					<a href="/">← Back to Portfolio</a>
+				</nav>
+			</header>
+			
+			<Template project={project}>
+				<slot />
+			</Template>
+		</main>
+		
+		<style>
+			:root {
+				--card-radius: 0.5rem;
+				--accent-color: #3b82f6;
+				--grid-gap: 1rem;
+			}
+			
+			* {
+				margin: 0;
+				padding: 0;
+				box-sizing: border-box;
+			}
+			
+			body {
+				font-family: system-ui, sans-serif;
+				background: #0f0f0f;
+				color: #ffffff;
+				line-height: 1.6;
+			}
+			
+			main {
+				max-width: 1200px;
+				margin: 0 auto;
+				padding: 2rem;
+			}
+			
+			header {
+				margin-bottom: 3rem;
+			}
+			
+			nav a {
+				color: #ffffff;
+				text-decoration: none;
+				font-weight: 500;
+				transition: color 0.2s;
+			}
+			
+			nav a:hover {
+				color: var(--accent-color);
+			}
+			
+			@media (max-width: 768px) {
+				main {
+					padding: 1rem;
+				}
+			}
+		</style>
+	</body>
+</html>

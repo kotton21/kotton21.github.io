@@ -1,0 +1,232 @@
+# Astro Portfolio
+
+A modern, responsive portfolio site built with Astro and MDX. Features a dark theme, multiple layout templates, and an automated project ingestion system.
+
+## 🚀 Quick Start
+
+### First Run
+
+1. **Install dependencies:**
+   ```bash
+   npm install
+   ```
+
+2. **Scan your draft projects:**
+   ```bash
+   npm run scan
+   ```
+
+3. **Ingest projects into the site:**
+   ```bash
+   npm run ingest
+   ```
+
+4. **Start development server:**
+   ```bash
+   npm run dev
+   ```
+
+5. **Open your browser:**
+   Visit `http://localhost:4321` to see your portfolio!
+
+### Build & Deploy
+
+```bash
+npm run build    # Build for production
+npm run preview  # Preview production build locally
+```
+
+## 📁 Project Structure
+
+```
+/
+├── draft_projects/          # Your raw project folders
+│   ├── project-name/
+│   │   ├── description.md   # Project description
+│   │   ├── image1.jpg       # Media files
+│   │   └── video1.mp4
+├── src/
+│   ├── content/
+│   │   ├── config.ts        # Content collection schema
+│   │   └── projects/        # Generated MDX files
+│   ├── components/
+│   │   ├── ProjectCard.astro
+│   │   └── templates/       # Layout templates
+│   ├── layouts/
+│   │   └── ProjectLayout.astro
+│   └── pages/
+│       ├── index.astro      # Portfolio grid
+│       ├── projects/[slug].astro
+│       ├── resume.astro
+│       └── contact.astro
+├── scripts/
+│   └── ingest-projects.mjs # Project ingestion script
+└── public/assets/           # Copied media files
+```
+
+## 🎨 Customization
+
+### Setting Contact Information
+
+Edit `src/pages/contact.astro`:
+```javascript
+const contactInfo = {
+  email: "your.email@example.com",
+  instagram: "https://instagram.com/yourusername",
+  linkedin: "https://linkedin.com/in/yourusername"
+};
+```
+
+### Setting Resume Link
+
+Edit `src/pages/resume.astro`:
+```javascript
+const resumeUrl = "https://drive.google.com/file/d/YOUR_FILE_ID/view?usp=sharing";
+```
+
+### Theming
+
+Customize CSS variables in any component:
+```css
+:root {
+  --accent-color: #3b82f6;     /* Primary accent color */
+  --card-radius: 0.5rem;       /* Border radius */
+  --grid-gap: 1rem;            /* Grid spacing */
+  --card-min-width: 300px;     /* Minimum card width */
+}
+```
+
+## 📝 Content Management
+
+### Project Templates
+
+The system supports 5 template types:
+
+- **`default`**: Standard layout with media grid
+- **`gallery`**: Image-focused masonry layout
+- **`videoFirst`**: Hero video with additional media
+- **`caseStudy`**: Structured sections for technical projects
+- **`minimal`**: Clean typography-focused layout
+
+### Ingest Script Options
+
+```bash
+# Scan projects (no changes)
+npm run scan
+
+# Ingest all projects
+npm run ingest
+
+# Ingest specific project
+npm run ingest -- --only=project-name
+
+# Dry run (see what would happen)
+npm run ingest -- --dry-run
+
+# Force overwrite existing files
+npm run ingest -- --force
+
+# Filter by pattern
+npm run ingest -- --match="arcade|van"
+
+# Get help
+npm run ingest -- --help
+```
+
+### Manual Content Creation
+
+Create MDX files in `src/content/projects/`:
+
+```markdown
+---
+title: "My Project"
+blurb: "Short description"
+description: "Full project description"
+date: "2024-01-15"
+template: "default"
+status: "complete"
+featured: false
+media:
+  - type: image
+    src: "/assets/projects/my-project/image.jpg"
+    alt: "Project image"
+links:
+  - label: "GitHub"
+    url: "https://github.com/user/repo"
+    type: "github"
+---
+
+# My Project
+
+Your project content here...
+```
+
+## 🚀 Deployment
+
+### GitHub Pages
+
+1. **Update site URL** in `astro.config.mjs`:
+   ```javascript
+   export default defineConfig({
+     site: 'https://yourusername.github.io',
+     base: '/repo-name', // if not using custom domain
+   });
+   ```
+
+2. **Deploy:**
+   ```bash
+   npm run build
+   # Push dist/ folder to gh-pages branch
+   ```
+
+### Custom Domain
+
+1. Add `CNAME` file to `public/`:
+   ```
+   yourdomain.com
+   ```
+
+2. Update `astro.config.mjs`:
+   ```javascript
+   site: 'https://yourdomain.com'
+   ```
+
+### Render/Vercel/Netlify
+
+These platforms support Astro out of the box. Just connect your repository and they'll automatically build and deploy.
+
+## 🛠 Development
+
+### Adding New Templates
+
+1. Create template component in `src/components/templates/`
+2. Add template option to schema in `src/content/config.ts`
+3. Update `ProjectLayout.astro` to include new template
+
+### Extending the Schema
+
+Edit `src/content/config.ts` to add new fields:
+
+```typescript
+schema: z.object({
+  // ... existing fields
+  newField: z.string().optional(),
+})
+```
+
+## 📚 Learn More
+
+- [Astro Documentation](https://docs.astro.build)
+- [MDX Documentation](https://mdxjs.com)
+- [Content Collections](https://docs.astro.build/en/guides/content-collections/)
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Submit a pull request
+
+## 📄 License
+
+MIT License - feel free to use this for your own portfolio!

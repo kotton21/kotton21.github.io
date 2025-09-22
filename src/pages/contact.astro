@@ -1,0 +1,200 @@
+---
+import Header from '../components/Header.astro';
+
+// Update these with your actual contact information
+const contactInfo = {
+  email: "your.email@example.com",
+  instagram: "https://instagram.com/yourusername",
+  linkedin: "https://linkedin.com/in/yourusername"
+};
+---
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="viewport" content="width=device-width" />
+		<meta name="generator" content={Astro.generator} />
+		<title>Contact - Portfolio</title>
+	</head>
+	<body>
+		<Header currentPage="contact" />
+		<main class="main-content">
+			
+			<section class="contact-content">
+				<h1>Contact</h1>
+				<p>Get in touch with me through any of these channels:</p>
+				
+				<div class="contact-links">
+					<a href={`mailto:${contactInfo.email}`} class="contact-link email">
+						📧 Email
+					</a>
+					<a href={contactInfo.instagram} target="_blank" class="contact-link instagram">
+						📷 Instagram
+					</a>
+					<a href={contactInfo.linkedin} target="_blank" class="contact-link linkedin">
+						💼 LinkedIn
+					</a>
+				</div>
+				
+				<div class="instructions">
+					<h2>Instructions</h2>
+					<p>To update your contact information:</p>
+					<ol>
+						<li>Edit the <code>contactInfo</code> object in <code>src/pages/contact.astro</code></li>
+						<li>Replace the placeholder values with your actual contact details</li>
+					</ol>
+				</div>
+			</section>
+		</main>
+		
+		<style>
+			:root {
+				--accent-color: #3b82f6;
+			}
+			
+			* {
+				margin: 0;
+				padding: 0;
+				box-sizing: border-box;
+			}
+			
+			body {
+				font-family: system-ui, sans-serif;
+				background: #0f0f0f;
+				color: #ffffff;
+				line-height: 1.6;
+			}
+			
+			main {
+				max-width: 800px;
+				margin: 0 auto;
+				padding: 2rem;
+			}
+			
+			header {
+				margin-bottom: 3rem;
+			}
+			
+			nav a {
+				color: #ffffff;
+				text-decoration: none;
+				font-weight: 500;
+				transition: color 0.2s;
+			}
+			
+			nav a:hover {
+				color: var(--accent-color);
+			}
+			
+			.contact-content {
+				text-align: center;
+			}
+			
+			h1 {
+				font-size: 3rem;
+				margin-bottom: 1rem;
+			}
+			
+			p {
+				font-size: 1.2rem;
+				margin-bottom: 3rem;
+				color: #cccccc;
+			}
+			
+			.contact-links {
+				display: flex;
+				gap: 2rem;
+				justify-content: center;
+				margin-bottom: 3rem;
+				flex-wrap: wrap;
+			}
+			
+			.contact-link {
+				display: inline-block;
+				padding: 1rem 2rem;
+				border-radius: 0.5rem;
+				text-decoration: none;
+				font-weight: 600;
+				font-size: 1.1rem;
+				transition: all 0.2s;
+				border: 2px solid transparent;
+			}
+			
+			.contact-link.email {
+				background: #dc2626;
+				color: white;
+			}
+			
+			.contact-link.email:hover {
+				background: #b91c1c;
+			}
+			
+			.contact-link.instagram {
+				background: #e1306c;
+				color: white;
+			}
+			
+			.contact-link.instagram:hover {
+				background: #c13584;
+			}
+			
+			.contact-link.linkedin {
+				background: #0077b5;
+				color: white;
+			}
+			
+			.contact-link.linkedin:hover {
+				background: #005885;
+			}
+			
+			.instructions {
+				text-align: left;
+				background: #1a1a1a;
+				padding: 2rem;
+				border-radius: 0.5rem;
+				border: 1px solid #333;
+			}
+			
+			.instructions h2 {
+				margin-bottom: 1rem;
+				color: var(--accent-color);
+			}
+			
+			.instructions ol {
+				margin-left: 1.5rem;
+			}
+			
+			.instructions li {
+				margin-bottom: 0.5rem;
+			}
+			
+			code {
+				background: #333;
+				padding: 0.2rem 0.4rem;
+				border-radius: 0.25rem;
+				font-family: 'Monaco', 'Consolas', monospace;
+			}
+			
+			@media (max-width: 768px) {
+				main {
+					padding: 1rem;
+				}
+				
+				h1 {
+					font-size: 2rem;
+				}
+				
+				.contact-links {
+					flex-direction: column;
+					align-items: center;
+				}
+				
+				.contact-link {
+					width: 100%;
+					max-width: 300px;
+				}
+			}
+		</style>
+	</body>
+</html>

@@ -1,0 +1,17 @@
+{
+  "name": "astro-portfolio",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "scan": "node scripts/ingest-projects.mjs --scan-only",
+    "ingest": "node scripts/ingest-projects.mjs"
+  },
+  "dependencies": {
+    "@astrojs/mdx": "^4.3.5",
+    "astro": "^5.13.9"
+  }
+}

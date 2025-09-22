@@ -35,7 +35,6 @@ const featuredProjects = siteConfig.featuredProjects
 		<script>
 			// Array of all media from public assets (images and videos)
 			const heroMedia = [
-				{ src: "/assets/projects/burning_man/20220715_200239.mp4", type: "video" },
 				{ src: "/assets/site/20250327_130203.jpg", type: "image" },
 				{ src: "/assets/projects/light_mirror/20200325_230626.mp4", type: "video" },
 				{ src: "/assets/projects/arcade/20240304_174714.jpg", type: "image" },
@@ -57,8 +56,11 @@ const featuredProjects = siteConfig.featuredProjects
 						element = document.createElement('img');
 						element.src = media.src;
 						element.alt = 'Featured project';
+						element.classList.add('ken-burns'); // Add Ken Burns class to images only
 					} else if (media.type === "video") {
 						element = document.createElement('video');
+						element.style.width = '100%';
+                    	element.style.height = '100%';
 						element.src = media.src;
 						element.muted = true;
 						element.loop = true;
@@ -68,6 +70,11 @@ const featuredProjects = siteConfig.featuredProjects
 					element.style.width = '100%';
 					element.style.height = '100%';
 					element.style.objectFit = 'cover';
+					
+					// Override height for images to allow panning effect
+					if (media.type === "image") {
+						element.style.height = '120%';
+					}
 					element.style.transition = 'opacity 0.8s ease-in-out';
 					element.style.position = 'absolute';
 					element.style.top = '0';
@@ -94,6 +101,13 @@ const featuredProjects = siteConfig.featuredProjects
 					// If it's a video, play it
 					if (heroMedia[currentMediaIndex].type === "video") {
 						nextElement.play();
+					}
+					
+					// If it's an image, reset the Ken Burns animation
+					if (heroMedia[currentMediaIndex].type === "image") {
+						nextElement.style.animation = 'none';
+						nextElement.offsetHeight; // Trigger reflow
+						nextElement.style.animation = 'kenBurnsZoom 3s ease-in-out infinite';
 					}
 					
 					// Pause previous video if it was a video
@@ -225,8 +239,12 @@ const featuredProjects = siteConfig.featuredProjects
 			}
 
 			.hero-media img {
-				height: 120%; /* Make image taller for panning effect */
-				animation: verticalPan 20s ease-in-out infinite;
+				width: 100%;
+				height: 100%;
+			}
+
+			.hero-media img.ken-burns {
+				animation: verticalPan 20s ease-in-out infinite !important;
 			}
 
 			@keyframes verticalPan {

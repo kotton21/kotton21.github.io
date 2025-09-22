@@ -17,7 +17,7 @@ const featuredProjects = siteConfig.featuredProjects
 <html lang="en">
 	<head>
 		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="icon" type="image/svg+xml" href="/astro-portfolio/favicon.svg" />
 		<meta name="viewport" content="width=device-width" />
 		<meta name="generator" content={Astro.generator} />
 		<title>Portfolio</title>
@@ -32,17 +32,17 @@ const featuredProjects = siteConfig.featuredProjects
 			</div>
 		</section>
 
-		<script>
+		<script define:vars={{ baseUrl: '/astro-portfolio' }}>
 			// Array of all media from public assets (images and videos)
 			const heroMedia = [
-				{ src: "/assets/site/20250327_130203.jpg", type: "image" },
-				{ src: "/assets/projects/light_mirror/20200325_230626.mp4", type: "video" },
-				{ src: "/assets/projects/arcade/20240304_174714.jpg", type: "image" },
-				{ src: "/assets/site/20250522_133326.jpg", type: "image" },
-				{ src: "/assets/projects/burning_man/20220901_222706.mp4", type: "video" },
-				{ src: "/assets/site/20250327_130224.jpg", type: "image" },
-				{ src: "/assets/projects/light_mirror/20200325_230431.mp4", type: "video" },
-				{ src: "/assets/projects/burning_man/20220829_231734.mp4", type: "video" },
+				{ src: `${baseUrl}/assets/site/20250327_130203.jpg`, type: "image" },
+				{ src: `${baseUrl}/assets/projects/light_mirror/20200325_230626.mp4`, type: "video" },
+				{ src: `${baseUrl}/assets/projects/arcade/20240304_174714.jpg`, type: "image" },
+				{ src: `${baseUrl}/assets/site/20250522_133326.jpg`, type: "image" },
+				{ src: `${baseUrl}/assets/projects/burning_man/20220901_222706.mp4`, type: "video" },
+				{ src: `${baseUrl}/assets/site/20250327_130224.jpg`, type: "image" },
+				{ src: `${baseUrl}/assets/projects/light_mirror/20200325_230431.mp4`, type: "video" },
+				{ src: `${baseUrl}/assets/projects/burning_man/20220829_231734.mp4`, type: "video" },
 			];
 
 			let currentMediaIndex = 0;
@@ -152,7 +152,7 @@ const featuredProjects = siteConfig.featuredProjects
 
 			<!-- View All Projects Button -->
 			<section class="view-all-projects">
-				<a href="/projects" class="view-all-button">View All Projects</a>
+				<a href="/astro-portfolio/projects" class="view-all-button">View All Projects</a>
 			</section>
 
 			<!-- Talk to Me Section -->

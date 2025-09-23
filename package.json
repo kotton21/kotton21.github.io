@@ -7,8 +7,10 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "scan": "node scripts/ingest-projects.mjs --scan-only",
-    "ingest": "node scripts/ingest-projects.mjs"
+    "ingest": "node scripts/ingest-projects.mjs",
+    "ingest:dry": "node scripts/ingest-projects.mjs --dry-run",
+    "compress": "node scripts/compress-media.mjs",
+    "purge": "node scripts/purge-unused-media.mjs"
   },
   "dependencies": {
     "@astrojs/mdx": "^4.3.5",

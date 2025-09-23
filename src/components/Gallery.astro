@@ -1,18 +1,19 @@
 ---
 export interface Props {
   media: Array<{
-    type: 'image' | 'video';
+    type: 'image' | 'video' | 'gif';
     src: string;
     alt: string;
     caption?: string;
   }>;
+  orientation?: 'landscape' | 'portrait';
 }
 
-const { media = [] } = Astro.props;
+const { media = [], orientation = 'landscape' } = Astro.props;
 ---
 
 <div class="project-media">
-  <div class="gallery-grid">
+  <div class={`gallery-grid ${orientation}`}>
     {media.map((item, index) => (
       <div class="gallery-item" data-index={index} data-type={item.type} data-src={item.src} data-alt={item.alt}>
         {item.type === 'video' ? (
@@ -190,6 +191,20 @@ const { media = [] } = Astro.props;
     gap: 1rem;
     margin-top: 1rem;
   }
+  
+  .gallery-grid.portrait {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  }
+  
+  .gallery-grid.portrait .gallery-item {
+    aspect-ratio: 3/4;
+  }
+  
+  .gallery-grid.portrait .gallery-item img,
+  .gallery-grid.portrait .gallery-item video {
+    object-fit: cover;
+    height: 100%;
+  }
 
   .gallery-item {
     position: relative;
@@ -310,6 +325,10 @@ const { media = [] } = Astro.props;
   @media (max-width: 768px) {
     .gallery-grid {
       grid-template-columns: 1fr;
+    }
+    
+    .gallery-grid.portrait {
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
     }
 
     .lightbox-prev,

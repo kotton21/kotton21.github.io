@@ -6,7 +6,6 @@ const projectsCollection = defineCollection({
     // Core required fields
     title: z.string(),
     blurb: z.string().optional(), // Short description for cards
-    description: z.string(), // Main project description
     
     // Date handling (manual specification)
     date: z.string().optional(), // Any text format (e.g., "2024", "Spring 2024", "January 2024")

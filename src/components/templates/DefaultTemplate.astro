@@ -1,4 +1,6 @@
 ---
+import Gallery from '../Gallery.astro';
+
 export interface Props {
   project: any;
 }
@@ -16,7 +18,7 @@ const gifs = data.media?.filter(m => m.type === 'gif') || [];
   <header class="project-header">
     <h1>{data.title}</h1>
     {data.blurb && <p class="project-blurb">{data.blurb}</p>}
-    {data.date && <time class="project-date">{new Date(data.date).toLocaleDateString()}</time>}
+    {data.date && <time class="project-date">{data.date}</time>}
   </header>
   
   <div class="project-content">
@@ -40,178 +42,16 @@ const gifs = data.media?.filter(m => m.type === 'gif') || [];
     {(images.length > 0 || videos.length > 0 || gifs.length > 0) && (
       <div class="project-media">
         <h3>Media</h3>
-        <div class="media-grid">
-          {images.map((media, index) => (
-            <div class="media-item" data-type="image" data-src={media.src} data-alt={media.alt || data.title} data-index={index}>
-              <img src={media.src} alt={media.alt || data.title} />
-              {media.caption && <p class="media-caption">{media.caption}</p>}
-            </div>
-          ))}
-          
-          {videos.map((media, index) => (
-            <div class="media-item" data-type="video" data-src={media.src} data-alt={media.alt || data.title} data-index={index}>
-              <video 
-                src={media.src} 
-                controls 
-                muted
-                onmouseover="this.play()"
-                onmouseout="this.pause()"
-              >
-                Your browser does not support the video tag.
-              </video>
-              {media.caption && <p class="media-caption">{media.caption}</p>}
-            </div>
-          ))}
-          
-          {gifs.map((media, index) => (
-            <div class="media-item" data-type="image" data-src={media.src} data-alt={media.alt || data.title} data-index={index}>
-              <img src={media.src} alt={media.alt || data.title} />
-              {media.caption && <p class="media-caption">{media.caption}</p>}
-            </div>
-          ))}
-        </div>
+        <Gallery media={[
+          ...images.map(media => ({ type: 'image', src: media.src, alt: media.alt || data.title, caption: media.caption })),
+          ...videos.map(media => ({ type: 'video', src: media.src, alt: media.alt || data.title, caption: media.caption })),
+          ...gifs.map(media => ({ type: 'image', src: media.src, alt: media.alt || data.title, caption: media.caption }))
+        ]} />
       </div>
     )}
   </div>
 </article>
 
-<!-- Lightbox Modal -->
-<div id="lightbox" class="lightbox">
-  <div class="lightbox-content">
-    <button class="lightbox-close">&times;</button>
-    <button class="lightbox-prev">&lt;</button>
-    <button class="lightbox-next">&gt;</button>
-    <div class="lightbox-media">
-      <img id="lightbox-image" style="display: none;" />
-      <video id="lightbox-video" style="display: none;" controls></video>
-    </div>
-    <div class="lightbox-caption" id="lightbox-caption"></div>
-  </div>
-</div>
-
-<script is:inline>
-  let currentMediaIndex = 0;
-  let allMedia = [];
-  
-  function openLightbox(type, src, alt, index) {
-    currentMediaIndex = index;
-    allMedia = Array.from(document.querySelectorAll('.media-item')).map((item, i) => {
-      const img = item.querySelector('img');
-      const video = item.querySelector('video');
-      const caption = item.querySelector('.media-caption');
-      
-      if (img) {
-        return {
-          type: 'image',
-          src: img.src,
-          alt: img.alt,
-          caption: caption ? caption.textContent : ''
-        };
-      } else if (video) {
-        return {
-          type: 'video',
-          src: video.src,
-          alt: video.alt || 'Video',
-          caption: caption ? caption.textContent : ''
-        };
-      }
-      return null;
-    }).filter(Boolean);
-    
-    const lightbox = document.getElementById('lightbox');
-    const lightboxImage = document.getElementById('lightbox-image');
-    const lightboxVideo = document.getElementById('lightbox-video');
-    const lightboxCaption = document.getElementById('lightbox-caption');
-    
-    if (type === 'image') {
-      lightboxImage.src = src;
-      lightboxImage.alt = alt;
-      lightboxImage.style.display = 'block';
-      lightboxVideo.style.display = 'none';
-    } else if (type === 'video') {
-      lightboxVideo.src = src;
-      lightboxVideo.style.display = 'block';
-      lightboxImage.style.display = 'none';
-      // Autoplay video when opened in lightbox
-      lightboxVideo.play().catch(e => console.log('Autoplay failed:', e));
-    }
-    
-    lightboxCaption.textContent = alt;
-    lightbox.style.display = 'flex';
-    document.body.style.overflow = 'hidden';
-  }
-  
-  function closeLightbox() {
-    const lightbox = document.getElementById('lightbox');
-    const lightboxVideo = document.getElementById('lightbox-video');
-    
-    lightbox.style.display = 'none';
-    document.body.style.overflow = 'auto';
-    
-    // Pause video when closing
-    if (lightboxVideo.src) {
-      lightboxVideo.pause();
-    }
-  }
-  
-  function prevMedia() {
-    if (currentMediaIndex > 0) {
-      currentMediaIndex--;
-      const media = allMedia[currentMediaIndex];
-      openLightbox(media.type, media.src, media.alt, currentMediaIndex);
-    }
-  }
-  
-  function nextMedia() {
-    if (currentMediaIndex < allMedia.length - 1) {
-      currentMediaIndex++;
-      const media = allMedia[currentMediaIndex];
-      openLightbox(media.type, media.src, media.alt, currentMediaIndex);
-    }
-  }
-  
-  // Initialize event listeners when DOM is ready
-  document.addEventListener('DOMContentLoaded', function() {
-    // Add click listeners to media items
-    document.querySelectorAll('.media-item').forEach((item, index) => {
-      item.addEventListener('click', function() {
-        const type = this.dataset.type;
-        const src = this.dataset.src;
-        const alt = this.dataset.alt;
-        openLightbox(type, src, alt, index);
-      });
-    });
-    
-    // Add click listeners to lightbox controls
-    document.querySelector('.lightbox').addEventListener('click', function(e) {
-      if (e.target === this) {
-        closeLightbox();
-      }
-    });
-    
-    document.querySelector('.lightbox-content').addEventListener('click', function(e) {
-      e.stopPropagation();
-    });
-    
-    document.querySelector('.lightbox-close').addEventListener('click', closeLightbox);
-    document.querySelector('.lightbox-prev').addEventListener('click', prevMedia);
-    document.querySelector('.lightbox-next').addEventListener('click', nextMedia);
-    
-    // Keyboard navigation
-    document.addEventListener('keydown', function(e) {
-      const lightbox = document.getElementById('lightbox');
-      if (lightbox.style.display === 'flex') {
-        if (e.key === 'Escape') {
-          closeLightbox();
-        } else if (e.key === 'ArrowLeft') {
-          prevMedia();
-        } else if (e.key === 'ArrowRight') {
-          nextMedia();
-        }
-      }
-    });
-  });
-</script>
 
 <style>
   .project-detail {
@@ -346,95 +186,6 @@ const gifs = data.media?.filter(m => m.type === 'gif') || [];
     margin: 0;
   }
   
-  /* Lightbox Styles */
-  .lightbox {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.9);
-    z-index: 1000;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .lightbox-content {
-    position: relative;
-    max-width: 90vw;
-    max-height: 90vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  .lightbox-media {
-    max-width: 90vw;
-    max-height: 80vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .lightbox-media img,
-  .lightbox-media video {
-    max-width: 90vw;
-    max-height: 80vh;
-    width: auto;
-    height: auto;
-    object-fit: contain;
-    object-position: center;
-  }
-  
-  .lightbox-caption {
-    color: white;
-    text-align: center;
-    margin-top: 1rem;
-    font-size: 1rem;
-  }
-  
-  .lightbox-close {
-    position: absolute;
-    top: -40px;
-    right: 0;
-    background: none;
-    border: none;
-    color: white;
-    font-size: 2rem;
-    cursor: pointer;
-    padding: 0.5rem;
-    z-index: 1001;
-  }
-  
-  .lightbox-prev,
-  .lightbox-next {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background: rgba(255, 255, 255, 0.2);
-    border: none;
-    color: white;
-    font-size: 2rem;
-    cursor: pointer;
-    padding: 1rem;
-    border-radius: 50%;
-    transition: background 0.2s;
-    z-index: 1001;
-  }
-  
-  .lightbox-prev {
-    left: -60px;
-  }
-  
-  .lightbox-next {
-    right: -60px;
-  }
-  
-  .lightbox-prev:hover,
-  .lightbox-next:hover {
-    background: rgba(255, 255, 255, 0.3);
-  }
   
   @media (max-width: 768px) {
     h1 {
@@ -458,34 +209,5 @@ const gifs = data.media?.filter(m => m.type === 'gif') || [];
     }
 
     
-    /* Mobile lightbox adjustments */
-    .lightbox-content {
-      max-width: 95vw;
-      max-height: 95vh;
-    }
-    
-    .lightbox-media {
-      max-width: 95vw;
-      max-height: 70vh;
-    }
-    
-    .lightbox-prev,
-    .lightbox-next {
-      font-size: 1.5rem;
-      padding: 0.75rem;
-    }
-    
-    .lightbox-prev {
-      left: -50px;
-    }
-    
-    .lightbox-next {
-      right: -50px;
-    }
-    
-    .lightbox-close {
-      top: -35px;
-      font-size: 1.5rem;
-    }
   }
 </style>

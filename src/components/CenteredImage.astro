@@ -1,0 +1,55 @@
+---
+export interface Props {
+  src: string;
+  alt: string;
+  caption?: string;
+  width?: string;
+  height?: string;
+}
+
+const { src, alt, caption, width = "100%", height = "auto" } = Astro.props;
+---
+
+<div class="centered-image">
+  <img 
+    src={src} 
+    alt={alt}
+    style={`width: ${width}; height: ${height};`}
+  />
+  {caption && <p class="image-caption">{caption}</p>}
+</div>
+
+<style>
+  .centered-image {
+    text-align: center;
+    margin: 2rem 0;
+  }
+
+  .centered-image img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    transition: transform 0.2s ease;
+  }
+
+  .centered-image img:hover {
+    transform: scale(1.02);
+  }
+
+  .image-caption {
+    margin-top: 0.5rem;
+    color: #cccccc;
+    font-size: 0.9rem;
+    font-style: italic;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  @media (max-width: 768px) {
+    .centered-image {
+      margin: 1.5rem 0;
+    }
+  }
+</style>

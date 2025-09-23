@@ -11,7 +11,7 @@ const { data } = project;
   <header class="project-header">
     <h1>{data.title}</h1>
     {data.blurb && <p class="project-blurb">{data.blurb}</p>}
-    {data.date && <time class="project-date">{new Date(data.date).toLocaleDateString()}</time>}
+    {data.date && <time class="project-date">{data.date}</time>}
   </header>
   
   <div class="project-content">

@@ -1,4 +1,6 @@
 ---
+import Header from '../Header.astro';
+
 export interface Props {
   project: any;
 }
@@ -11,28 +13,162 @@ const heroVideo = data.heroVideo || data.media?.find(m => m.type === 'video')?.s
 const otherMedia = data.media?.filter(m => m.src !== heroVideo) || [];
 ---
 
+<Header currentPage="projects" logoText="Back to Projects" includeArrow={true} />
+
 <article class="project-detail video-first">
-  <header class="project-header">
-    <h1>{data.title}</h1>
-    {data.blurb && <p class="project-blurb">{data.blurb}</p>}
-    {data.date && <time class="project-date">{new Date(data.date).toLocaleDateString()}</time>}
-  </header>
-  
+  <!-- Hero Media Canvas - Full Width Above Header -->
+  <section class="hero-canvas">
+    <div class="hero-media" id="hero-media-container">
+      <!-- Media elements will be dynamically created here -->
+    </div>
+  </section>
+
   <div class="project-content">
-    {heroVideo && (
-      <div class="hero-video">
-        <video 
-          src={heroVideo} 
-          controls 
-          muted
-          poster={data.thumbnail}
-          onmouseover="this.play()"
-          onmouseout="this.pause()"
-        >
-          Your browser does not support the video tag.
-        </video>
-      </div>
-    )}
+    <header class="project-header">
+      <h1>{data.title}</h1>
+      {data.blurb && <div class="project-blurb" set:html={data.blurb} />}
+      {data.date && <time class="project-date">{data.date}</time>}
+    </header>
+
+    <script define:vars={{ projectMedia: data.media || [] }}>
+      console.log('VideoFirst template script loading...', projectMedia);
+      
+      // Convert project media to cycling format
+      const heroMedia = projectMedia.map(media => ({
+        src: media.src,
+        type: media.type,
+        alt: media.alt || ''
+      }));
+
+      console.log('Hero media array:', heroMedia);
+
+      let currentMediaIndex = 0;
+      let mediaElements = [];
+      let container;
+      
+      function createMediaElements() {
+        container = document.getElementById('hero-media-container');
+        if (!container) {
+          console.error('Hero media container not found');
+          return;
+        }
+        
+        console.log('Creating media elements for', heroMedia.length, 'items');
+        
+        heroMedia.forEach((media, index) => {
+          let element;
+          if (media.type === "image" || media.type === "gif") {
+            element = document.createElement('img');
+            element.src = media.src;
+            element.alt = media.alt;
+            element.classList.add('ken-burns'); // Add Ken Burns class to images only
+          } else if (media.type === "video") {
+            element = document.createElement('video');
+            element.style.width = '100%';
+            element.style.height = '100%';
+            element.src = media.src;
+            element.muted = true;
+            element.loop = true;
+            element.autoplay = index === 0; // Auto-play first video
+            element.playsInline = true; // For mobile compatibility
+          }
+          
+          element.style.width = '100%';
+          element.style.height = '100%';
+          element.style.objectFit = 'cover';
+          
+          // Override height for images to allow panning effect
+          if (media.type === "image" || media.type === "gif") {
+            element.style.height = '120%';
+          }
+          element.style.transition = 'opacity 0.8s ease-in-out';
+          element.style.position = 'absolute';
+          element.style.top = '0';
+          element.style.left = '0';
+          element.style.opacity = index === 0 ? '1' : '0'; // Show first element
+          
+          container.appendChild(element);
+          mediaElements.push(element);
+          console.log('Added element:', media.type, media.src);
+        });
+      }
+
+      function changeHeroMedia() {
+        if (mediaElements.length === 0) return;
+        
+        const currentElement = mediaElements[currentMediaIndex];
+        currentMediaIndex = (currentMediaIndex + 1) % heroMedia.length;
+        const nextElement = mediaElements[currentMediaIndex];
+        
+        console.log('Changing to media index:', currentMediaIndex, heroMedia[currentMediaIndex]);
+        
+        // Fade out current element
+        currentElement.style.opacity = '0';
+        
+        // After fade out, fade in next element
+        setTimeout(() => {
+          nextElement.style.opacity = '1';
+          
+          // If it's a video, play it
+          if (heroMedia[currentMediaIndex].type === "video") {
+            console.log('Playing video:', nextElement.src);
+            nextElement.play().catch(error => {
+              console.error('Error playing video:', error);
+            });
+          }
+          
+          // If it's an image, reset the Ken Burns animation
+          if (heroMedia[currentMediaIndex].type === "image" || heroMedia[currentMediaIndex].type === "gif") {
+            nextElement.style.animation = 'none';
+            nextElement.offsetHeight; // Trigger reflow
+            nextElement.style.animation = 'kenBurnsZoom 3s ease-in-out infinite';
+          }
+          
+          // Pause previous video if it was a video
+          if (heroMedia[(currentMediaIndex - 1 + heroMedia.length) % heroMedia.length].type === "video") {
+            currentElement.pause();
+          }
+        }, 400); // Half of the CSS transition time
+      }
+
+      // Initialize media elements when page loads
+      document.addEventListener('DOMContentLoaded', () => {
+        console.log('DOM loaded, initializing video first template');
+        if (heroMedia.length > 0) {
+          createMediaElements();
+          
+          // Check if there's only one video
+          const isSingleVideo = heroMedia.length === 1 && heroMedia[0].type === "video";
+          
+          if (isSingleVideo) {
+            console.log('Single video detected, setting up continuous loop');
+            // For single video, ensure it loops continuously
+            if (mediaElements[0]) {
+              mediaElements[0].loop = true;
+              mediaElements[0].play().catch(error => {
+                console.error('Error playing single video:', error);
+              });
+            }
+          } else {
+            // Start playing first video if it's a video
+            if (heroMedia[0].type === "video" && mediaElements[0]) {
+              console.log('Starting first video:', heroMedia[0].src);
+              mediaElements[0].play().catch(error => {
+                console.error('Error playing first video:', error);
+              });
+            }
+            
+            // Start cycling after 2 seconds (only if multiple media items)
+            setTimeout(() => {
+              console.log('Starting media cycling');
+              setInterval(changeHeroMedia, 4000);
+            }, 2000);
+          }
+        } else {
+          console.log('No media found for cycling');
+        }
+      });
+    </script>
     
     <div class="project-description">
       <slot />
@@ -81,8 +217,14 @@ const otherMedia = data.media?.filter(m => m.src !== heroVideo) || [];
 
 <style>
   .project-detail {
+    max-width: 100%;
+    margin: 0;
+  }
+  
+  .project-content {
     max-width: 1000px;
     margin: 0 auto;
+    padding: 0 2rem;
   }
   
   .project-header {
@@ -116,15 +258,65 @@ const otherMedia = data.media?.filter(m => m.src !== heroVideo) || [];
     gap: 3rem;
   }
   
-  .hero-video {
-    margin-bottom: 2rem;
+  /* Hero Canvas */
+  .hero-canvas {
+    position: relative;
+    height: 55vh; /* Reduced by 70% from 70vh */
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
+    margin-top: -4rem; /* Pull up behind the fixed header */
+    overflow: hidden;
+    margin-bottom: 3rem;
   }
-  
-  .hero-video video {
+
+  .hero-media {
+    position: relative;
     width: 100%;
-    max-height: 500px;
-    border-radius: 0.5rem;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    height: 100%;
+  }
+
+  .hero-media img,
+  .hero-media video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: opacity 0.8s ease-in-out;
+  }
+
+  .hero-media img {
+    width: 100%;
+    height: 100%;
+  }
+
+  .hero-media img.ken-burns {
+    animation: verticalPan 20s ease-in-out infinite !important;
+  }
+
+  @keyframes verticalPan {
+    0% {
+      transform: translateY(0%);
+    }
+    50% {
+      transform: translateY(-10%);
+    }
+    100% {
+      transform: translateY(0%);
+    }
+  }
+
+  .hero-media::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 200px;
+    background: linear-gradient(to bottom, 
+      rgba(15, 15, 15, 0) 0%,
+      rgba(15, 15, 15, 0.1) 70%,
+      rgba(15, 15, 15, 0.3) 80%,
+      rgba(15, 15, 15, 1) 100%);
+    pointer-events: none;
   }
   
   .project-description {
@@ -205,6 +397,10 @@ const otherMedia = data.media?.filter(m => m.src !== heroVideo) || [];
   }
   
   @media (max-width: 768px) {
+    .project-content {
+      padding: 0 1rem;
+    }
+    
     h1 {
       font-size: 2rem;
     }
@@ -213,8 +409,12 @@ const otherMedia = data.media?.filter(m => m.src !== heroVideo) || [];
       font-size: 1.1rem;
     }
     
-    .hero-video video {
-      max-height: 300px;
+    .hero-canvas {
+      height: 15vh; /* Reduced proportionally for mobile */
+    }
+
+    .hero-media::after {
+      height: 100px;
     }
     
     .media-grid {

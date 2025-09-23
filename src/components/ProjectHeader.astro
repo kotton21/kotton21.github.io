@@ -1,0 +1,57 @@
+---
+export interface Props {
+  title: string;
+  blurb?: string;
+  date?: string;
+}
+
+const { title, blurb, date } = Astro.props;
+---
+
+<header class="project-header">
+  <h1>{title}</h1>
+  {blurb && <p class="project-blurb">{blurb}</p>}
+  {date && <time class="project-date">{new Date(date).toLocaleDateString()}</time>}
+</header>
+
+<style>
+  .project-header {
+    margin-bottom: 2rem;
+    text-align: center;
+  }
+
+  .project-header h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .project-blurb {
+    font-size: 1.2rem;
+    color: #cccccc;
+    margin-bottom: 1rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .project-date {
+    color: #888;
+    font-size: 0.9rem;
+    font-style: italic;
+  }
+
+  @media (max-width: 768px) {
+    .project-header h1 {
+      font-size: 2rem;
+    }
+
+    .project-blurb {
+      font-size: 1.1rem;
+    }
+  }
+</style>

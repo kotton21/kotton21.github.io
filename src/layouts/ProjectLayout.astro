@@ -2,7 +2,6 @@
 import DefaultTemplate from '../components/templates/DefaultTemplate.astro';
 import GalleryTemplate from '../components/templates/GalleryTemplate.astro';
 import VideoFirstTemplate from '../components/templates/VideoFirstTemplate.astro';
-import CaseStudyTemplate from '../components/templates/CaseStudyTemplate.astro';
 import MinimalTemplate from '../components/templates/MinimalTemplate.astro';
 
 export interface Props {
@@ -19,8 +18,6 @@ const getTemplate = () => {
       return GalleryTemplate;
     case 'videoFirst':
       return VideoFirstTemplate;
-    case 'caseStudy':
-      return CaseStudyTemplate;
     case 'minimal':
       return MinimalTemplate;
     default:
@@ -75,7 +72,6 @@ const Template = getTemplate();
 			main {
 				max-width: 1200px;
 				margin: 0 auto;
-				padding: 2rem;
 			}
 			
 			header {

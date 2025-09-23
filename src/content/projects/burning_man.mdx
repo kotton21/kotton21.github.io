@@ -1,54 +1,65 @@
 ---
-title: "Burning_man"
+title: "Burning Man"
 sortOrder: 4
-description: ""
+description: "A collection of moments from Burning Man 2022 and 2024, capturing the art, community, and unique experiences of the playa."
 
 thumbnail: "/astro-portfolio/assets/projects/burning_man/20220714_200622.jpg"
-template: "gallery"
-status: "draft"
+template: "videoFirst"
+status: "complete"
 featured: false
-media:
-  - type: image
-    src: "/astro-portfolio/assets/projects/burning_man/20220714_200622.jpg"
-    alt: "burning_man - 20220714_200622.jpg"
-    
-  - type: image
-    src: "/astro-portfolio/assets/projects/burning_man/20220715_200120.jpg"
-    alt: "burning_man - 20220715_200120.jpg"
-    
-  - type: image
-    src: "/astro-portfolio/assets/projects/burning_man/20220730_151554.jpg"
-    alt: "burning_man - 20220730_151554.jpg"
-    
-  - type: image
-    src: "/astro-portfolio/assets/projects/burning_man/20220730_173500.jpg"
-    alt: "burning_man - 20220730_173500.jpg"
-    
-  - type: image
-    src: "/astro-portfolio/assets/projects/burning_man/20220730_181041.jpg"
-    alt: "burning_man - 20220730_181041.jpg"
-    
-  - type: video
-    src: "/astro-portfolio/assets/projects/burning_man/20220829_231734.mp4"
-    alt: "burning_man - 20220829_231734.mp4"
-    
+media: 
   - type: video
     src: "/astro-portfolio/assets/projects/burning_man/20220901_222706.mp4"
-    alt: "burning_man - 20220901_222706.mp4"
-    
-  - type: image
-    src: "/astro-portfolio/assets/projects/burning_man/20220901_223404-01.jpeg"
-    alt: "burning_man - 20220901_223404-01.jpeg"
-    
-  - type: video
-    src: "/astro-portfolio/assets/projects/burning_man/20241006_162513.mp4"
-    alt: "burning_man - 20241006_162513.mp4"
-    
-  - type: image
-    src: "/astro-portfolio/assets/projects/burning_man/20241006_174101.jpg"
-    alt: "burning_man - 20241006_174101.jpg"
-    
-
+    alt: "Light mirror initial setup"
+    caption: "The initial setup showing the LED panel and mirror configuration"
 ---
+A collection of moments from Burning Man 2022 and 2024, capturing the art, community, and unique experiences of the playa.
+
+import Gallery from '../../components/Gallery.astro';
 
 
+
+## Bicycle Build
+
+The first days on the playa, setting up camp and exploring the early art installations before the main event begins.
+
+<Gallery 
+  media={[
+    { type: "image", src: "/astro-portfolio/assets/projects/burning_man/20220730_173500.jpg", alt: "Community gathering", blurb: "Early arrivals setting up camp" },
+    { type: "image", src: "/astro-portfolio/assets/projects/burning_man/20220730_180148.jpg", alt: "Playa landscape", blurb: "Vast desert expanse before the crowds" },
+    { type: "image", src: "/astro-portfolio/assets/projects/burning_man/20220730_181041.jpg", alt: "Sunset art", blurb: "Golden hour on the playa" }
+  ]}
+/>
+<br/>
+
+
+## Art & Community
+
+The heart of Burning Man, featuring large-scale art installations, community gatherings, and the vibrant energy of the event.
+  
+
+<Gallery 
+  media={[
+    { type: "image", src: "/astro-portfolio/assets/projects/burning_man/20220714_200622.jpg", alt: "Plastic", caption: "Polycarbonate for the win" },
+    { type: "image", src: "/astro-portfolio/assets/projects/burning_man/20220715_200120.jpg", alt: "Pic of clean wheels", caption: "These wheels will never be clean again" },
+    { type: "image", src: "/astro-portfolio/assets/projects/burning_man/20220730_151554.jpg", alt: "Art installation" },
+    { type: "video", src: "/astro-portfolio/assets/projects/burning_man/20220829_231734.mp4", alt: "Night performance" },
+    { type: "video", src: "/astro-portfolio/assets/projects/burning_man/20220901_222706.mp4", alt: "Art installation video" },
+    { type: "image", src: "/astro-portfolio/assets/projects/burning_man/20221014_195038.jpg", alt: "Night scene", caption: "Off season fancy ass lamp for my appartment"}
+  ]}
+/>
+<br/>
+
+
+## WIP: Printing Playa Dust
+
+As may found out in 2022, playa dust mud is really close to clay.. 😂 
+
+This was my first (off-playa) test of printing playa dust with my paste 3d printer.  It's much 'stickier' than conventional clay and so it doesn't print very cleanly, but a bigger nozzle and some woter content fine-tuning should help. I'll bring my printer to playa next year (2026) to print directly on-playa!"
+  
+<Gallery 
+  media={[
+    { type: "video", src: "/astro-portfolio/assets/projects/burning_man/20241006_162513.mp4", alt: "2024 experience", caption: "Blobs of mud bunching at the nozzle tip!"},
+    { type: "image", src: "/astro-portfolio/assets/projects/burning_man/20241006_174101.jpg", alt: "2024 sunset", caption: "But it worked out ok.."}
+  ]}
+/>

@@ -1,0 +1,158 @@
+---
+title: "Component Demo Project"
+blurb: "A demonstration of all the reusable components we created"
+description: "This project showcases how to use the new reusable components in MDX files instead of templates."
+date: "2024-01-15"
+sortOrder: 99
+thumbnail: "/astro-portfolio/assets/projects/burning_man/20220714_200622.jpg"
+status: "complete"
+featured: false
+---
+
+import ProjectHeader from '../../components/ProjectHeader.astro';
+import Gallery from '../../components/Gallery.astro';
+import CenteredImage from '../../components/CenteredImage.astro';
+import TextBlock from '../../components/TextBlock.astro';
+
+
+<TextBlock content="
+<p>This project demonstrates how to use <strong>reusable components</strong> in MDX files instead of relying on templates. Each component is designed to be composable and flexible.</p>
+
+<h2>What We Built</h2>
+
+<p>We created four main components:</p>
+
+<ul>
+  <li><strong>ProjectHeader</strong> - Displays title, blurb, and date</li>
+  <li><strong>Gallery</strong> - Creates a responsive grid of images and videos</li>
+  <li><strong>CenteredImage</strong> - Shows a single centered image with caption</li>
+  <li><strong>TextBlock</strong> - Renders formatted text content</li>
+</ul>
+
+<h2>Benefits of This Approach</h2>
+
+<p>Using components instead of templates gives you:</p>
+
+<ul>
+  <li><strong>Flexibility</strong> - Mix and match components as needed</li>
+  <li><strong>Reusability</strong> - Use the same components across different projects</li>
+  <li><strong>Control</strong> - Fine-tune the layout for each project</li>
+  <li><strong>Maintainability</strong> - Update components once, affects all projects</li>
+</ul>
+" />
+
+<CenteredImage 
+  src="/astro-portfolio/assets/projects/burning_man/20220714_200622.jpg"
+  alt="Burning Man sunset"
+  caption="A beautiful sunset at Burning Man - perfect for demonstrating the CenteredImage component"
+/>
+
+<TextBlock content="
+<h2>Single Image Component</h2>
+
+<p>The <code>CenteredImage</code> component is perfect for showcasing a single important image. It includes:</p>
+
+<ul>
+  <li>Automatic centering</li>
+  <li>Responsive sizing</li>
+  <li>Optional caption</li>
+  <li>Hover effects</li>
+  <li>Rounded corners and shadow</li>
+</ul>
+
+<p>You can also specify custom width and height if needed!</p>
+" />
+
+## Image Gallery Demo
+
+<Gallery 
+  media={[
+    {
+      type: "image",
+      src: "/astro-portfolio/assets/projects/burning_man/20220715_200120.jpg",
+      alt: "Burning Man art installation",
+      caption: "Amazing art installations everywhere"
+    },
+    {
+      type: "image",
+      src: "/astro-portfolio/assets/projects/burning_man/20220730_151554.jpg", 
+      alt: "Burning Man structure",
+      caption: "Unique structures and architecture"
+    },
+    {
+      type: "image",
+      src: "/astro-portfolio/assets/projects/burning_man/20220730_173500.jpg",
+      alt: "Burning Man scene",
+      caption: "The playa at sunset"
+    },
+    {
+      type: "image",
+      src: "/astro-portfolio/assets/projects/burning_man/20220730_181041.jpg",
+      alt: "Burning Man art",
+      caption: "Interactive art pieces"
+    }
+  ]}
+/>
+
+<TextBlock content="
+<h2>Gallery Component</h2>
+
+<p>The <code>Gallery</code> component creates a responsive grid that automatically adjusts to different screen sizes. It includes:</p>
+
+<ul>
+  <li><strong>Lightbox functionality</strong> - Click any image to view it full-screen</li>
+  <li><strong>Keyboard navigation</strong> - Use arrow keys to navigate</li>
+  <li><strong>Video support</strong> - Can include videos alongside images</li>
+  <li><strong>Captions</strong> - Optional captions for each media item</li>
+  <li><strong>Responsive grid</strong> - Automatically adjusts columns based on screen size</li>
+</ul>
+
+<p>You can mix images and videos in the same gallery, and the component will handle both types seamlessly!</p>
+" />
+
+## Video Gallery Demo
+
+<Gallery 
+  media={[
+    {
+      type: "video",
+      src: "/astro-portfolio/assets/projects/burning_man/20220829_231734.mp4",
+      alt: "Burning Man video 1",
+      caption: "Time-lapse of the playa"
+    },
+    {
+      type: "video",
+      src: "/astro-portfolio/assets/projects/burning_man/20220901_222706.mp4",
+      alt: "Burning Man video 2", 
+      caption: "Art car parade"
+    }
+  ]}
+/>
+
+<TextBlock content="
+<h2>TextBlock Component</h2>
+
+<p>The <code>TextBlock</code> component handles all your text content with proper styling. It supports:</p>
+
+<ul>
+  <li><strong>Markdown formatting</strong> - Bold, italic, links, etc.</li>
+  <li><strong>Headers</strong> - H1, H2, H3 with proper styling</li>
+  <li><strong>Lists</strong> - Both ordered and unordered</li>
+  <li><strong>Code blocks</strong> - Syntax highlighting ready</li>
+  <li><strong>Blockquotes</strong> - For highlighting important text</li>
+</ul>
+
+<h3>Custom Styling</h3>
+
+<p>Each component can be customized with additional CSS classes or inline styles. The components are designed to work together seamlessly while maintaining their individual flexibility.</p>
+
+<blockquote>
+  <p>This approach gives you the best of both worlds: the convenience of templates when you need it, and the flexibility of components when you want full control.</p>
+</blockquote>
+" />
+
+<CenteredImage 
+  src="/astro-portfolio/assets/projects/burning_man/20220901_223404-01.jpeg"
+  alt="Final Burning Man shot"
+  caption="The perfect ending to our component demonstration"
+/>

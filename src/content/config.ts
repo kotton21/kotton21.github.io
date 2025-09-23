@@ -31,15 +31,11 @@ const projectsCollection = defineCollection({
     })).optional(),
     
     // Layout template
-    template: z.enum(['default', 'gallery', 'videoFirst', 'caseStudy', 'minimal']).default('default'),
+    template: z.enum(['default', 'gallery', 'videoFirst', 'minimal']).default('default'),
     
     // Template-specific fields (discriminated union)
     heroVideo: z.string().optional(), // For videoFirst template
     galleryImages: z.array(z.string()).optional(), // For gallery template
-    caseStudySections: z.array(z.object({
-      title: z.string(),
-      content: z.string()
-    })).optional(), // For caseStudy template
     
     // Status & metadata
     status: z.enum(['complete', 'wip', 'draft']).default('complete'),

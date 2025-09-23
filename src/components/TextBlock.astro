@@ -1,0 +1,138 @@
+---
+export interface Props {
+  content: string;
+  className?: string;
+}
+
+const { content, className = "" } = Astro.props;
+---
+
+<div class={`text-block ${className}`}>
+  <div class="text-content" set:html={content} />
+</div>
+
+<style>
+  .text-block {
+    margin: 2rem 0;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .text-content {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: #e5e5e5;
+  }
+
+  .text-content p {
+    margin-bottom: 1rem;
+  }
+
+  .text-content h1,
+  .text-content h2,
+  .text-content h3,
+  .text-content h4,
+  .text-content h5,
+  .text-content h6 {
+    color: #ffffff;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    font-weight: 600;
+  }
+
+  .text-content h1 {
+    font-size: 2rem;
+    border-bottom: 2px solid #3b82f6;
+    padding-bottom: 0.5rem;
+  }
+
+  .text-content h2 {
+    font-size: 1.5rem;
+    color: #3b82f6;
+  }
+
+  .text-content h3 {
+    font-size: 1.25rem;
+  }
+
+  .text-content ul,
+  .text-content ol {
+    margin: 1rem 0;
+    padding-left: 2rem;
+  }
+
+  .text-content li {
+    margin-bottom: 0.5rem;
+  }
+
+  .text-content blockquote {
+    border-left: 4px solid #3b82f6;
+    padding-left: 1rem;
+    margin: 1.5rem 0;
+    font-style: italic;
+    color: #cccccc;
+  }
+
+  .text-content code {
+    background: #2a2a2a;
+    padding: 0.2rem 0.4rem;
+    border-radius: 0.25rem;
+    font-family: 'Courier New', monospace;
+    font-size: 0.9rem;
+    color: #f59e0b;
+  }
+
+  .text-content pre {
+    background: #1a1a1a;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    overflow-x: auto;
+    margin: 1rem 0;
+  }
+
+  .text-content pre code {
+    background: none;
+    padding: 0;
+    color: #e5e5e5;
+  }
+
+  .text-content a {
+    color: #3b82f6;
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .text-content a:hover {
+    color: #60a5fa;
+    text-decoration: underline;
+  }
+
+  .text-content strong {
+    color: #ffffff;
+    font-weight: 600;
+  }
+
+  .text-content em {
+    color: #cccccc;
+  }
+
+  @media (max-width: 768px) {
+    .text-block {
+      margin: 1.5rem 0;
+      padding: 0 1rem;
+    }
+
+    .text-content {
+      font-size: 1rem;
+    }
+
+    .text-content h1 {
+      font-size: 1.5rem;
+    }
+
+    .text-content h2 {
+      font-size: 1.25rem;
+    }
+  }
+</style>

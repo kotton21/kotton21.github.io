@@ -34,3 +34,4 @@ lerna-debug.log*
 
 # OS generated files
 Thumbs.db
+draft_projects/*

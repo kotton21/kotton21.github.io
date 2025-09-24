@@ -2,15 +2,27 @@
 import { getCollection } from 'astro:content';
 import ProjectCard from '../components/ProjectCard.astro';
 import Header from '../components/Header.astro';
+import HeroCarousel from '../components/HeroCarousel.astro';
 import { siteConfig } from '../config/site';
 
 const projects = await getCollection('projects');
 
-// Get featured projects based on site config
-const featuredProjects = siteConfig.featuredProjects
-  .map(slug => projects.find(project => project.slug === slug))
-  .filter(Boolean)
-  .slice(0, 3);
+// Get featured projects based on featured: true property
+const featuredProjects = projects
+  .filter(project => project.data.featured === true)
+  .sort((a, b) => a.data.sortOrder - b.data.sortOrder);
+
+// Hero carousel media
+const heroMedia = [
+  { src: '/astro-portfolio/assets/site/20250327_130203.jpg', type: 'image', alt: 'Featured project' },
+  { src: '/astro-portfolio/assets/projects/light_mirror/20200325_230626.mp4', type: 'video', alt: 'Light Mirror project' },
+  { src: '/astro-portfolio/assets/projects/arcade/20240304_174714.jpg', type: 'image', alt: 'Arcade project' },
+  { src: '/astro-portfolio/assets/site/20250522_133326.jpg', type: 'image', alt: 'Featured project' },
+  { src: '/astro-portfolio/assets/projects/burning_man/20220901_222706.mp4', type: 'video', alt: 'Burning Man project' },
+  { src: '/astro-portfolio/assets/site/20250327_130224.jpg', type: 'image', alt: 'Featured project' },
+  { src: '/astro-portfolio/assets/projects/light_mirror/20200325_230431.mp4', type: 'video', alt: 'Light Mirror project' },
+  { src: '/astro-portfolio/assets/projects/burning_man/20220829_231734.mp4', type: 'video', alt: 'Burning Man project' },
+];
 
 ---
 
@@ -25,108 +37,7 @@ const featuredProjects = siteConfig.featuredProjects
 	<body>
 		<Header />
 		
-		<!-- Hero Media Canvas -->
-		<section class="hero-canvas">
-			<div class="hero-media" id="hero-media-container">
-				<!-- Media elements will be dynamically created here -->
-			</div>
-		</section>
-
-		<script define:vars={{ baseUrl: '/astro-portfolio' }}>
-			// Array of all media from public assets (images and videos)
-			const heroMedia = [
-				{ src: `${baseUrl}/assets/site/20250327_130203.jpg`, type: "image" },
-				{ src: `${baseUrl}/assets/projects/light_mirror/20200325_230626.mp4`, type: "video" },
-				{ src: `${baseUrl}/assets/projects/arcade/20240304_174714.jpg`, type: "image" },
-				{ src: `${baseUrl}/assets/site/20250522_133326.jpg`, type: "image" },
-				{ src: `${baseUrl}/assets/projects/burning_man/20220901_222706.mp4`, type: "video" },
-				{ src: `${baseUrl}/assets/site/20250327_130224.jpg`, type: "image" },
-				{ src: `${baseUrl}/assets/projects/light_mirror/20200325_230431.mp4`, type: "video" },
-				{ src: `${baseUrl}/assets/projects/burning_man/20220829_231734.mp4`, type: "video" },
-			];
-
-			let currentMediaIndex = 0;
-			let mediaElements = [];
-			const container = document.getElementById('hero-media-container');
-			
-			function createMediaElements() {
-				heroMedia.forEach((media, index) => {
-					let element;
-					if (media.type === "image") {
-						element = document.createElement('img');
-						element.src = media.src;
-						element.alt = 'Featured project';
-						element.classList.add('ken-burns'); // Add Ken Burns class to images only
-					} else if (media.type === "video") {
-						element = document.createElement('video');
-						element.style.width = '100%';
-                    	element.style.height = '100%';
-						element.src = media.src;
-						element.muted = true;
-						element.loop = true;
-						element.autoplay = false; // We'll control this manually
-					}
-					
-					element.style.width = '100%';
-					element.style.height = '100%';
-					element.style.objectFit = 'cover';
-					
-					// Override height for images to allow panning effect
-					if (media.type === "image") {
-						element.style.height = '120%';
-					}
-					element.style.transition = 'opacity 0.8s ease-in-out';
-					element.style.position = 'absolute';
-					element.style.top = '0';
-					element.style.left = '0';
-					element.style.opacity = index === 0 ? '1' : '0'; // Show first element
-					
-					container.appendChild(element);
-					mediaElements.push(element);
-				});
-			}
-
-			function changeHeroMedia() {
-				const currentElement = mediaElements[currentMediaIndex];
-				currentMediaIndex = (currentMediaIndex + 1) % heroMedia.length;
-				const nextElement = mediaElements[currentMediaIndex];
-				
-				// Fade out current element
-				currentElement.style.opacity = '0';
-				
-				// After fade out, fade in next element
-				setTimeout(() => {
-					nextElement.style.opacity = '1';
-					
-					// If it's a video, play it
-					if (heroMedia[currentMediaIndex].type === "video") {
-						nextElement.play();
-					}
-					
-					// If it's an image, reset the Ken Burns animation
-					if (heroMedia[currentMediaIndex].type === "image") {
-						nextElement.style.animation = 'none';
-						nextElement.offsetHeight; // Trigger reflow
-						nextElement.style.animation = 'kenBurnsZoom 3s ease-in-out infinite';
-					}
-					
-					// Pause previous video if it was a video
-					if (heroMedia[(currentMediaIndex - 1 + heroMedia.length) % heroMedia.length].type === "video") {
-						currentElement.pause();
-					}
-				}, 400); // Half of the CSS transition time
-			}
-
-			// Initialize media elements when page loads
-			document.addEventListener('DOMContentLoaded', () => {
-				createMediaElements();
-				
-				// Start cycling after 2 seconds
-				setTimeout(() => {
-					setInterval(changeHeroMedia, 4000);
-				}, 2000);
-			});
-		</script>
+		<HeroCarousel media={heroMedia} height="70vh" interval={4000} />
 
 		<main class="main-content">
 			<!-- Hero Section -->
@@ -216,63 +127,6 @@ const featuredProjects = siteConfig.featuredProjects
 				line-height: 1.6;
 			}
 			
-			/* Hero Canvas */
-			.hero-canvas {
-				position: relative;
-				height: 70vh;
-				width: 100%;
-				overflow: hidden;
-			}
-
-			.hero-media {
-				position: relative;
-				width: 100%;
-				height: 100%;
-			}
-
-			.hero-media img,
-			.hero-media video {
-				width: 100%;
-				height: 100%;
-				object-fit: cover;
-				transition: opacity 0.8s ease-in-out;
-			}
-
-			.hero-media img {
-				width: 100%;
-				height: 100%;
-			}
-
-			.hero-media img.ken-burns {
-				animation: verticalPan 20s ease-in-out infinite !important;
-			}
-
-			@keyframes verticalPan {
-				0% {
-					transform: translateY(0%);
-				}
-				50% {
-					transform: translateY(-10%);
-				}
-				100% {
-					transform: translateY(0%);
-				}
-			}
-
-			.hero-media::after {
-				content: '';
-				position: absolute;
-				bottom: 0;
-				left: 0;
-				right: 0;
-				height: 300px;
-				background: linear-gradient(to bottom, 
-					rgba(15, 15, 15, 0) 0%,
-					rgba(15, 15, 15, 0.1) 70%,
-					rgba(15, 15, 15, 0.3) 80%,
-					rgba(15, 15, 15, 1) 100%);
-				pointer-events: none;
-			}
 
 			.main-content {
 				max-width: 1200px;

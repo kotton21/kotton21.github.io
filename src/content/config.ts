@@ -37,7 +37,7 @@ const projectsCollection = defineCollection({
     galleryImages: z.array(z.string()).optional(), // For gallery template
     
     // Status & metadata
-    status: z.enum(['complete', 'wip', 'draft']).default('complete'),
+    status: z.enum(['complete', 'wip', 'draft', 'invisible']).default('complete'),
     featured: z.boolean().default(false)
   })
 });

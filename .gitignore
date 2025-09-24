@@ -35,3 +35,6 @@ lerna-debug.log*
 # OS generated files
 Thumbs.db
 draft_projects/*
+public/assets/projects/*
+public/assets/site/*
+public/assets/projects/arcade/20230115_123409.jpg

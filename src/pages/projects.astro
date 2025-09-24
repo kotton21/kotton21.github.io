@@ -5,8 +5,11 @@ import Header from '../components/Header.astro';
 
 const projects = await getCollection('projects');
 
+// Filter out invisible projects
+const visibleProjects = projects.filter(project => project.data.status !== 'invisible');
+
 // Sort projects by sortOrder (lower numbers first), then by slug for duplicates
-const sortedProjects = projects.sort((a, b) => {
+const sortedProjects = visibleProjects.sort((a, b) => {
   // If both have sortOrder, sort by that (lower numbers first)
   if (a.data.sortOrder !== undefined && b.data.sortOrder !== undefined) {
     if (a.data.sortOrder !== b.data.sortOrder) {
@@ -26,7 +29,7 @@ const sortedProjects = projects.sort((a, b) => {
   return a.slug.localeCompare(b.slug);
 });
 
-// All projects in one list
+// All visible projects in one list
 const allProjects = sortedProjects;
 ---
 

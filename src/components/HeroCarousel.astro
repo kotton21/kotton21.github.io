@@ -1,0 +1,207 @@
+---
+import { MEDIA_BASE_URL } from '../config/media';
+
+export interface Props {
+  media: Array<{
+    src: string;
+    type: 'image' | 'video' | 'gif';
+    alt: string;
+  }>;
+  height?: string;
+  interval?: number;
+}
+
+const { 
+  media = [], 
+  height = '70vh',
+  interval = 4000 
+} = Astro.props;
+
+// Helper function to get the full media URL
+function getMediaUrl(src: string): string {
+  // If src already starts with http or is a full URL, return as-is
+  if (src.startsWith('http') || src.startsWith('//')) {
+    return src;
+  }
+  // If src starts with /astro-portfolio/assets, replace with MEDIA_BASE_URL
+  if (src.startsWith('/astro-portfolio/assets')) {
+    return src.replace('/astro-portfolio/assets', MEDIA_BASE_URL);
+  }
+  // Otherwise, prepend MEDIA_BASE_URL
+  return `${MEDIA_BASE_URL}${src.startsWith('/') ? '' : '/'}${src}`;
+}
+
+// Process media URLs
+const processedMedia = media.map(item => ({
+  ...item,
+  src: getMediaUrl(item.src)
+}));
+---
+
+<section class="hero-canvas" style={`height: ${height}`}>
+  <div class="hero-media" id="hero-media-container">
+    <!-- Media elements will be dynamically created here -->
+  </div>
+</section>
+
+<script define:vars={{ heroMedia: processedMedia, intervalMs: interval }}>
+  console.log('HeroCarousel script loading...', heroMedia);
+  
+  let currentMediaIndex = 0;
+  let mediaElements = [];
+  let container;
+  
+  function createMediaElements() {
+    container = document.getElementById('hero-media-container');
+    if (!container) {
+      console.error('Hero media container not found');
+      return;
+    }
+    
+    console.log('Creating media elements for', heroMedia.length, 'items');
+    
+    heroMedia.forEach((media, index) => {
+      let element;
+      if (media.type === "image" || media.type === "gif") {
+        element = document.createElement('img');
+        element.src = media.src;
+        element.alt = media.alt;
+        element.classList.add('ken-burns'); // Add Ken Burns class to images only
+      } else if (media.type === "video") {
+        element = document.createElement('video');
+        element.style.width = '100%';
+        element.style.height = '100%';
+        element.src = media.src;
+        element.muted = true;
+        element.loop = true;
+        element.autoplay = index === 0; // Auto-play first video
+        element.playsInline = true; // For mobile compatibility
+      }
+      
+      element.style.width = '100%';
+      element.style.height = '100%';
+      element.style.objectFit = 'cover';
+      
+      // Override height for images to allow panning effect
+      if (media.type === "image" || media.type === "gif") {
+        element.style.height = '120%';
+      }
+      element.style.transition = 'opacity 0.8s ease-in-out';
+      element.style.position = 'absolute';
+      element.style.top = '0';
+      element.style.left = '0';
+      element.style.opacity = index === 0 ? '1' : '0'; // Show first element
+      
+      container.appendChild(element);
+      mediaElements.push(element);
+      console.log('Added element:', media.type, media.src);
+    });
+  }
+
+  function changeHeroMedia() {
+    if (mediaElements.length === 0) return;
+    
+    const currentElement = mediaElements[currentMediaIndex];
+    currentMediaIndex = (currentMediaIndex + 1) % heroMedia.length;
+    const nextElement = mediaElements[currentMediaIndex];
+    
+    // Fade out current element
+    currentElement.style.opacity = '0';
+    
+    // After fade out, fade in next element
+    setTimeout(() => {
+      nextElement.style.opacity = '1';
+      
+      // If it's a video, play it
+      if (heroMedia[currentMediaIndex].type === "video") {
+        nextElement.play().catch(e => console.log('Video play failed:', e));
+      }
+      
+      // If it's an image, reset the Ken Burns animation
+      if (heroMedia[currentMediaIndex].type === "image" || heroMedia[currentMediaIndex].type === "gif") {
+        nextElement.style.animation = 'none';
+        nextElement.offsetHeight; // Trigger reflow
+        nextElement.style.animation = 'kenBurnsZoom 3s ease-in-out infinite';
+      }
+      
+      // Pause previous video if it was a video
+      if (heroMedia[(currentMediaIndex - 1 + heroMedia.length) % heroMedia.length].type === "video") {
+        currentElement.pause();
+      }
+    }, 400); // Half of the CSS transition time
+  }
+
+  // Initialize media elements when page loads
+  document.addEventListener('DOMContentLoaded', () => {
+    createMediaElements();
+    
+    // Start cycling after 2 seconds
+    setTimeout(() => {
+      setInterval(changeHeroMedia, intervalMs);
+    }, 2000);
+  });
+</script>
+
+<style>
+  /* Hero Canvas */
+  .hero-canvas {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .hero-media {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+
+  .hero-media img,
+  .hero-media video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: opacity 0.8s ease-in-out;
+  }
+
+  .hero-media img.ken-burns {
+    animation: kenBurnsZoom 3s ease-in-out infinite;
+  }
+
+  @keyframes kenBurnsZoom {
+    0% {
+      transform: scale(1) translateY(0%);
+    }
+    50% {
+      transform: scale(1.05) translateY(-2%);
+    }
+    100% {
+      transform: scale(1) translateY(0%);
+    }
+  }
+
+  .hero-media::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 300px;
+    background: linear-gradient(to bottom, 
+      rgba(15, 15, 15, 0) 0%,
+      rgba(15, 15, 15, 0.1) 70%,
+      rgba(15, 15, 15, 0.3) 80%,
+      rgba(15, 15, 15, 1) 100%);
+    pointer-events: none;
+  }
+
+  @media (max-width: 768px) {
+    .hero-canvas {
+      height: 50vh !important;
+    }
+
+    .hero-media::after {
+      height: 100px;
+    }
+  }
+</style>

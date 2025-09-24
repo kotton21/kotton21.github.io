@@ -1,4 +1,6 @@
 ---
+import { MEDIA_BASE_URL } from '../config/media';
+
 export interface Props {
   media: Array<{
     type: 'image' | 'video' | 'gif';
@@ -10,28 +12,45 @@ export interface Props {
 }
 
 const { media = [], orientation = 'landscape' } = Astro.props;
+
+// Helper function to get the full media URL
+function getMediaUrl(src: string): string {
+  // If src already starts with http or is a full URL, return as-is
+  if (src.startsWith('http') || src.startsWith('//')) {
+    return src;
+  }
+  // If src starts with /astro-portfolio/assets, replace with MEDIA_BASE_URL
+  if (src.startsWith('/astro-portfolio/assets')) {
+    return src.replace('/astro-portfolio/assets', MEDIA_BASE_URL);
+  }
+  // Otherwise, prepend MEDIA_BASE_URL
+  return `${MEDIA_BASE_URL}${src.startsWith('/') ? '' : '/'}${src}`;
+}
 ---
 
 <div class="project-media">
   <div class={`gallery-grid ${orientation}`}>
-    {media.map((item, index) => (
-      <div class="gallery-item" data-index={index} data-type={item.type} data-src={item.src} data-alt={item.alt}>
-        {item.type === 'video' ? (
-          <video 
-            src={item.src} 
-            controls 
-            muted
-            onmouseover="this.play()"
-            onmouseout="this.pause()"
-          >
-            Your browser does not support the video tag.
-          </video>
-        ) : (
-          <img src={item.src} alt={item.alt} />
-        )}
-        {item.caption && <div class={`media-caption ${item.type === 'video' ? 'caption-top' : 'caption-bottom'}`}>{item.caption}</div>}
-      </div>
-    ))}
+    {media.map((item, index) => {
+      const mediaUrl = getMediaUrl(item.src);
+      return (
+        <div class="gallery-item" data-index={index} data-type={item.type} data-src={mediaUrl} data-alt={item.alt}>
+          {item.type === 'video' ? (
+            <video 
+              src={mediaUrl} 
+              controls 
+              muted
+              onmouseover="this.play()"
+              onmouseout="this.pause()"
+            >
+              Your browser does not support the video tag.
+            </video>
+          ) : (
+            <img src={mediaUrl} alt={item.alt} />
+          )}
+          {item.caption && <div class={`media-caption ${item.type === 'video' ? 'caption-top' : 'caption-bottom'}`}>{item.caption}</div>}
+        </div>
+      );
+    })}
   </div>
 
   <!-- Lightbox Modal -->

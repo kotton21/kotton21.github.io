@@ -11,23 +11,18 @@ A modern, responsive portfolio site built with Astro and MDX. Features a dark th
    npm install
    ```
 
-2. **Scan your draft projects:**
+2. **Pull media assets:**
    ```bash
-   npm run scan
+   npm run media:pull
    ```
 
-3. **Ingest projects into the site:**
-   ```bash
-   npm run ingest
-   ```
-
-4. **Start development server:**
+3. **Start development server:**
    ```bash
    npm run dev
    ```
 
-5. **Open your browser:**
-   Visit `http://localhost:4321` to see your portfolio!
+4. **Open your browser:**
+   Visit `http://localhost:4321/astro-portfolio` to see your portfolio!
 
 ### Build & Deploy
 
@@ -161,40 +156,6 @@ links:
 Your project content here...
 ```
 
-## 🚀 Deployment
-
-### GitHub Pages
-
-1. **Update site URL** in `astro.config.mjs`:
-   ```javascript
-   export default defineConfig({
-     site: 'https://yourusername.github.io',
-     base: '/repo-name', // if not using custom domain
-   });
-   ```
-
-2. **Deploy:**
-   ```bash
-   npm run build
-   # Push dist/ folder to gh-pages branch
-   ```
-
-### Custom Domain
-
-1. Add `CNAME` file to `public/`:
-   ```
-   yourdomain.com
-   ```
-
-2. Update `astro.config.mjs`:
-   ```javascript
-   site: 'https://yourdomain.com'
-   ```
-
-### Render/Vercel/Netlify
-
-These platforms support Astro out of the box. Just connect your repository and they'll automatically build and deploy.
-
 ## 🛠 Development
 
 ### Adding New Templates
@@ -213,6 +174,39 @@ schema: z.object({
   newField: z.string().optional(),
 })
 ```
+
+## 📸 Media Management
+
+This project uses Google Cloud Storage for media hosting in production while maintaining fast local development.
+
+### Setup
+1. **Configure GCS bucket:**
+   ```bash
+   gsutil mb gs://your-portfolio-media
+   gsutil iam ch allUsers:objectViewer gs://your-portfolio-media
+   ```
+
+2. **Pull media for local development:**
+   ```bash
+   npm run media:pull
+   ```
+
+### Workflow
+- **Local development**: Media served from `public/assets/projects/` (fast)
+- **Production**: Media served from GCS (scalable)
+- **Sync changes**: `npm run media:push` (upload) or `npm run media:sync` (pull + push)
+
+### Commands
+- `npm run media:pull` - Download all assets from GCS to local
+- `npm run media:push` - Upload all local assets to GCS  
+- `npm run media:sync` - Pull latest, then push changes
+- `npm run dev:setup` - Pull assets and start dev server
+
+### Benefits
+- **Fast local dev**: Assets served locally during development
+- **Clean repo**: No large media files in GitHub
+- **Flexible workflow**: Easy to sync changes back and forth
+- **Production optimized**: GCS delivery in production
 
 ## 📚 Learn More
 

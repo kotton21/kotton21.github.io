@@ -10,7 +10,11 @@
     "ingest": "node scripts/ingest-projects.mjs",
     "ingest:dry": "node scripts/ingest-projects.mjs --dry-run",
     "compress": "node scripts/compress-media.mjs",
-    "purge": "node scripts/purge-unused-media.mjs"
+    "purge": "node scripts/purge-unused-media.mjs",
+    "media:pull": "gsutil -m cp -r gs://karlsbayer-portfolio-media/assets/* public/assets/",
+    "media:push": "gsutil -m cp -r public/assets/* gs://karlsbayer-portfolio-media/assets/",
+    "media:sync": "npm run media:pull && npm run media:push",
+    "dev:setup": "npm run media:pull && npm run dev"
   },
   "dependencies": {
     "@astrojs/mdx": "^4.3.5",

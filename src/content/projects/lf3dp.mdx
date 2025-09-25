@@ -17,6 +17,8 @@ media:
     caption: "20231009_232318.mp4"
 ---
 
+import CenteredImage from '../../components/CenteredImage.astro';
+
 # LF3DP Features
 
 A fully custom Ceramic 3D Printer, built from scratch, designed to be the workhorse of my studio. This printer was designed with a large build platter to be able to print many small pieces in succession, or a smaller number of large pieces. This project showcases various LF3DP (Large Format 3D Printing) work and experiments.
@@ -27,6 +29,31 @@ A fully custom Ceramic 3D Printer, built from scratch, designed to be the workho
  - An auger style extruder head to enable start/stop prints
 
 
+## Where we started
+
+A pile of parts on my dining room table:
+
+<CenteredImage src="/astro-portfolio/assets/projects/LF3DP/20230606_194540.jpg" alt="Technical LF3DP result" />
+
+
+
+
+
+## The First "Print" (sortof)
+
+Technically, this object was 3d printed.. right? 
+<CenteredImage src="/astro-portfolio/assets/projects/LF3DP/20231014_163200.mp4" alt="Early LF3DP experiment" />
+
+
+## Some key moments
+Moments like, when I learned I need to move the y axis out of the way before turning off the motors, the first "real" print, and the last print before this project had to go into storage :(
+<Gallery media={[
+  { type: "image", src: "/astro-portfolio/assets/projects/LF3DP/20231017_220806.jpg", alt: "LF3DP - 20231017_220806.jpg", caption: "20231017_220806.jpg" },
+  { type: "image", src: "/astro-portfolio/assets/projects/LF3DP/20231104_221733.jpg", alt: "LF3DP - 20231104_221733.jpg", caption: "20231104_221733.jpg" },
+  { type: "image", src: "/astro-portfolio/assets/projects/LF3DP/20231107_230517.jpg", alt: "LF3DP - 20231107_230517.jpg", caption: "20231107_230517.jpg" },
+
+]} />
+
 ## Design flaws..
 
  - I discovered that putter style clay reservoirs need to build up pressure before printing, which causes inconsistent clay flow to the extruder head: Air pressure clay reservoirs are better for consistent clay flow, assuming very well mixed and relatively soft clay.
@@ -34,31 +61,9 @@ A fully custom Ceramic 3D Printer, built from scratch, designed to be the workho
  - The x crossbar is too heavy without z homing
  - Should swap the z and x axis so that the x crossbar doesn't come down on existing pieces for multi-part prints. 
 
+Overall, the build was lots of and I learned a lot, but I'm not convinced the build was worth the time cost of the design/itteration. At the time, I felt that I had to build it because I couldn't find an appripriate large format printer that I liked that was large format, a stationary build platform, and cost effective. 
 
-## Key Highlights
-
-import CenteredImage from '../../components/CenteredImage.astro';
-
-<CenteredImage src="/astro-portfolio/assets/projects/LF3DP/20231107_230517.jpg" alt="Early LF3DP experiment" />
-
-This early experiment from June 2023 marked the beginning of our large format 3D printing journey. The scale and detail achievable with LF3DP opened up new possibilities for artistic expression.
-
-## Process Documentation
-
-<CenteredImage src="/astro-portfolio/assets/projects/LF3DP/20231014_163200.mp4" alt="Early LF3DP experiment" />
-<Gallery orientation="portrait" media={[
-  { type: "video", src: "/astro-portfolio/assets/projects/LF3DP/20231014_163200.mp4", alt: "LF3DP - 20231014_163200.mp4", caption: "20231014_163200.mp4" },
- ]} />
-
-The LF3DP process involves careful calibration of print parameters, temperature control, and layer adhesion. Each print represents hours of meticulous work and attention to detail.
-
-## Technical Achievements
-
-<CenteredImage src="/astro-portfolio/assets/projects/LF3DP/20230606_194540.jpg" alt="Technical LF3DP result" />
-
-By October 2023, we had refined our techniques significantly. This piece demonstrates the precision and quality achievable with optimized LF3DP settings.
-
-## Complete Gallery
+## Media Dump:
 
 import Gallery from '../../components/Gallery.astro';
 
@@ -105,11 +110,3 @@ import Gallery from '../../components/Gallery.astro';
   { type: "image", src: "/astro-portfolio/assets/projects/LF3DP/20240307_114547.jpg", alt: "LF3DP - 20240307_114547.jpg", caption: "20240307_114547.jpg" },
   { type: "video", src: "/astro-portfolio/assets/projects/LF3DP/InShot_20231107_214542171.mp4", alt: "LF3DP - InShot_20231107_214542171.mp4", caption: "InShot_20231107_214542171.mp4" }
 ]} />
-
-## Process
-
-The LF3DP work involved various techniques and approaches, captured in the media above. Each piece represents hours of careful calibration, temperature control, and layer-by-layer construction.
-
-## Results
-
-Each piece represents a step in the creative process, from initial concepts to final implementations. The large format capabilities opened up new possibilities for artistic expression and technical innovation.

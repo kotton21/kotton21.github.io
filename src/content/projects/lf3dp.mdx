@@ -1,0 +1,115 @@
+---
+title: "LF3DP"
+blurb: "A collection of lf3dp work"
+date: "2025-09-24"
+template: "videoFirst"
+status: "complete"
+featured: false
+media:
+  # - type: video
+  #   src: "/astro-portfolio/assets/projects/LF3DP/20231007_233627.mp4"
+  #   alt: "LF3DP - 20231007_233627.mp4"
+  #   caption: "20231007_233627.mp4"
+  
+  - type: video
+    src: "/astro-portfolio/assets/projects/LF3DP/20231009_232318.mp4"
+    alt: "LF3DP - 20231009_232318.mp4"
+    caption: "20231009_232318.mp4"
+---
+
+# LF3DP Features
+
+A fully custom Ceramic 3D Printer, built from scratch, designed to be the workhorse of my studio. This printer was designed with a large build platter to be able to print many small pieces in succession, or a smaller number of large pieces. This project showcases various LF3DP (Large Format 3D Printing) work and experiments.
+
+ - Buildable Area: 600mm W x 900mm L x 700mm H
+ - No bells and whistles, just a large build platform cartesian system
+ - Putter style (positive displacement) clay reservoir
+ - An auger style extruder head to enable start/stop prints
+
+
+## Design flaws..
+
+ - I discovered that putter style clay reservoirs need to build up pressure before printing, which causes inconsistent clay flow to the extruder head: Air pressure clay reservoirs are better for consistent clay flow, assuming very well mixed and relatively soft clay.
+ - Needs a reinforced supply tube which doesn't expand like a balloon under internal pressure. That's an easy fix. 
+ - The x crossbar is too heavy without z homing
+ - Should swap the z and x axis so that the x crossbar doesn't come down on existing pieces for multi-part prints. 
+
+
+## Key Highlights
+
+import CenteredImage from '../../components/CenteredImage.astro';
+
+<CenteredImage src="/astro-portfolio/assets/projects/LF3DP/20231107_230517.jpg" alt="Early LF3DP experiment" />
+
+This early experiment from June 2023 marked the beginning of our large format 3D printing journey. The scale and detail achievable with LF3DP opened up new possibilities for artistic expression.
+
+## Process Documentation
+
+<CenteredImage src="/astro-portfolio/assets/projects/LF3DP/20231014_163200.mp4" alt="Early LF3DP experiment" />
+<Gallery orientation="portrait" media={[
+  { type: "video", src: "/astro-portfolio/assets/projects/LF3DP/20231014_163200.mp4", alt: "LF3DP - 20231014_163200.mp4", caption: "20231014_163200.mp4" },
+ ]} />
+
+The LF3DP process involves careful calibration of print parameters, temperature control, and layer adhesion. Each print represents hours of meticulous work and attention to detail.
+
+## Technical Achievements
+
+<CenteredImage src="/astro-portfolio/assets/projects/LF3DP/20230606_194540.jpg" alt="Technical LF3DP result" />
+
+By October 2023, we had refined our techniques significantly. This piece demonstrates the precision and quality achievable with optimized LF3DP settings.
+
+## Complete Gallery
+
+import Gallery from '../../components/Gallery.astro';
+
+<Gallery media={[
+  { type: "image", src: "/astro-portfolio/assets/projects/LF3DP/20230606_194540.jpg", alt: "LF3DP - 20230606_194540.jpg", caption: "20230606_194540.jpg" },
+  { type: "image", src: "/astro-portfolio/assets/projects/LF3DP/20230627_235314.jpg", alt: "LF3DP - 20230627_235314.jpg", caption: "20230627_235314.jpg" },
+  { type: "image", src: "/astro-portfolio/assets/projects/LF3DP/20230711_131735.jpg", alt: "LF3DP - 20230711_131735.jpg", caption: "20230711_131735.jpg" },
+  { type: "video", src: "/astro-portfolio/assets/projects/LF3DP/20230711_202454.mp4", alt: "LF3DP - 20230711_202454.mp4", caption: "20230711_202454.mp4" },
+  { type: "image", src: "/astro-portfolio/assets/projects/LF3DP/20230914_202447.jpg", alt: "LF3DP - 20230914_202447.jpg", caption: "20230914_202447.jpg" },
+  { type: "video", src: "/astro-portfolio/assets/projects/LF3DP/20230915_000734.mp4", alt: "LF3DP - 20230915_000734.mp4", caption: "20230915_000734.mp4" },
+  { type: "image", src: "/astro-portfolio/assets/projects/LF3DP/20230925_014501.jpg", alt: "LF3DP - 20230925_014501.jpg", caption: "20230925_014501.jpg" },
+  { type: "video", src: "/astro-portfolio/assets/projects/LF3DP/20231007_233627.mp4", alt: "LF3DP - 20231007_233627.mp4", caption: "20231007_233627.mp4" },
+  { type: "video", src: "/astro-portfolio/assets/projects/LF3DP/20231008_002510.mp4", alt: "LF3DP - 20231008_002510.mp4", caption: "20231008_002510.mp4" },
+  { type: "video", src: "/astro-portfolio/assets/projects/LF3DP/20231008_002854.mp4", alt: "LF3DP - 20231008_002854.mp4", caption: "20231008_002854.mp4" },
+  { type: "video", src: "/astro-portfolio/assets/projects/LF3DP/20231008_004636.mp4", alt: "LF3DP - 20231008_004636.mp4", caption: "20231008_004636.mp4" },
+  { type: "video", src: "/astro-portfolio/assets/projects/LF3DP/20231009_220724.mp4", alt: "LF3DP - 20231009_220724.mp4", caption: "20231009_220724.mp4" },
+  { type: "video", src: "/astro-portfolio/assets/projects/LF3DP/20231009_232228.mp4", alt: "LF3DP - 20231009_232228.mp4", caption: "20231009_232228.mp4" },
+  { type: "video", src: "/astro-portfolio/assets/projects/LF3DP/20231009_232318.mp4", alt: "LF3DP - 20231009_232318.mp4", caption: "20231009_232318.mp4" },
+  { type: "video", src: "/astro-portfolio/assets/projects/LF3DP/20231010_005120.mp4", alt: "LF3DP - 20231010_005120.mp4", caption: "20231010_005120.mp4" },
+  { type: "video", src: "/astro-portfolio/assets/projects/LF3DP/20231014_163200.mp4", alt: "LF3DP - 20231014_163200.mp4", caption: "20231014_163200.mp4" },
+  { type: "video", src: "/astro-portfolio/assets/projects/LF3DP/20231017_193425.mp4", alt: "LF3DP - 20231017_193425.mp4", caption: "20231017_193425.mp4" },
+  { type: "video", src: "/astro-portfolio/assets/projects/LF3DP/20231017_193510.mp4", alt: "LF3DP - 20231017_193510.mp4", caption: "20231017_193510.mp4" },
+  { type: "video", src: "/astro-portfolio/assets/projects/LF3DP/20231017_193543.mp4", alt: "LF3DP - 20231017_193543.mp4", caption: "20231017_193543.mp4" },
+  { type: "image", src: "/astro-portfolio/assets/projects/LF3DP/20231017_215750.jpg", alt: "LF3DP - 20231017_215750.jpg", caption: "20231017_215750.jpg" },
+  { type: "image", src: "/astro-portfolio/assets/projects/LF3DP/20231017_220806.jpg", alt: "LF3DP - 20231017_220806.jpg", caption: "20231017_220806.jpg" },
+  { type: "video", src: "/astro-portfolio/assets/projects/LF3DP/20231017_224957-2.mp4", alt: "LF3DP - 20231017_224957-2.mp4", caption: "20231017_224957-2.mp4" },
+  { type: "image", src: "/astro-portfolio/assets/projects/LF3DP/20231023_232659.jpg", alt: "LF3DP - 20231023_232659.jpg", caption: "20231023_232659.jpg" },
+  { type: "image", src: "/astro-portfolio/assets/projects/LF3DP/20231023_232937.jpg", alt: "LF3DP - 20231023_232937.jpg", caption: "20231023_232937.jpg" },
+  { type: "image", src: "/astro-portfolio/assets/projects/LF3DP/20231024_001739.jpg", alt: "LF3DP - 20231024_001739.jpg", caption: "20231024_001739.jpg" },
+  { type: "video", src: "/astro-portfolio/assets/projects/LF3DP/20231028_120745.mp4", alt: "LF3DP - 20231028_120745.mp4", caption: "20231028_120745.mp4" },
+  { type: "video", src: "/astro-portfolio/assets/projects/LF3DP/20231028_120802.mp4", alt: "LF3DP - 20231028_120802.mp4", caption: "20231028_120802.mp4" },
+  { type: "image", src: "/astro-portfolio/assets/projects/LF3DP/20231028_122747.jpg", alt: "LF3DP - 20231028_122747.jpg", caption: "20231028_122747.jpg" },
+  { type: "video", src: "/astro-portfolio/assets/projects/LF3DP/20231028_122754.mp4", alt: "LF3DP - 20231028_122754.mp4", caption: "20231028_122754.mp4" },
+  { type: "video", src: "/astro-portfolio/assets/projects/LF3DP/20231028_174541.mp4", alt: "LF3DP - 20231028_174541.mp4", caption: "20231028_174541.mp4" },
+  { type: "video", src: "/astro-portfolio/assets/projects/LF3DP/20231029_232620.mp4", alt: "LF3DP - 20231029_232620.mp4", caption: "20231029_232620.mp4" },
+  { type: "video", src: "/astro-portfolio/assets/projects/LF3DP/20231030_002918.mp4", alt: "LF3DP - 20231030_002918.mp4", caption: "20231030_002918.mp4" },
+  { type: "image", src: "/astro-portfolio/assets/projects/LF3DP/20231101_210716(0).jpg", alt: "LF3DP - 20231101_210716(0).jpg", caption: "20231101_210716(0).jpg" },
+  { type: "video", src: "/astro-portfolio/assets/projects/LF3DP/20231102_145507.mp4", alt: "LF3DP - 20231102_145507.mp4", caption: "20231102_145507.mp4" },
+  { type: "video", src: "/astro-portfolio/assets/projects/LF3DP/20231102_163512.mp4", alt: "LF3DP - 20231102_163512.mp4", caption: "20231102_163512.mp4" },
+  { type: "video", src: "/astro-portfolio/assets/projects/LF3DP/20231102_163553.mp4", alt: "LF3DP - 20231102_163553.mp4", caption: "20231102_163553.mp4" },
+  { type: "image", src: "/astro-portfolio/assets/projects/LF3DP/20231104_221733.jpg", alt: "LF3DP - 20231104_221733.jpg", caption: "20231104_221733.jpg" },
+  { type: "image", src: "/astro-portfolio/assets/projects/LF3DP/20231107_230517.jpg", alt: "LF3DP - 20231107_230517.jpg", caption: "20231107_230517.jpg" },
+  { type: "image", src: "/astro-portfolio/assets/projects/LF3DP/20240307_114528.jpg", alt: "LF3DP - 20240307_114528.jpg", caption: "20240307_114528.jpg" },
+  { type: "image", src: "/astro-portfolio/assets/projects/LF3DP/20240307_114547.jpg", alt: "LF3DP - 20240307_114547.jpg", caption: "20240307_114547.jpg" },
+  { type: "video", src: "/astro-portfolio/assets/projects/LF3DP/InShot_20231107_214542171.mp4", alt: "LF3DP - InShot_20231107_214542171.mp4", caption: "InShot_20231107_214542171.mp4" }
+]} />
+
+## Process
+
+The LF3DP work involved various techniques and approaches, captured in the media above. Each piece represents hours of careful calibration, temperature control, and layer-by-layer construction.
+
+## Results
+
+Each piece represents a step in the creative process, from initial concepts to final implementations. The large format capabilities opened up new possibilities for artistic expression and technical innovation.

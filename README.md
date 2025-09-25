@@ -1,6 +1,6 @@
 # Astro Portfolio
 
-A modern, responsive portfolio site built with Astro and MDX. Features a dark theme, multiple layout templates, and an automated project ingestion system.
+A modern, responsive portfolio site built with Astro and MDX. Features a dark theme, multiple layout templates, and Google Cloud Storage media hosting.
 
 ## 🚀 Quick Start
 
@@ -37,13 +37,12 @@ npm run preview  # Preview production build locally
 /
 ├── draft_projects/          # Your raw project folders
 │   ├── project-name/
-│   │   ├── description.md   # Project description
 │   │   ├── image1.jpg       # Media files
 │   │   └── video1.mp4
 ├── src/
 │   ├── content/
 │   │   ├── config.ts        # Content collection schema
-│   │   └── projects/        # Generated MDX files
+│   │   └── projects/        # MDX project files
 │   ├── components/
 │   │   ├── ProjectCard.astro
 │   │   └── templates/       # Layout templates
@@ -55,8 +54,9 @@ npm run preview  # Preview production build locally
 │       ├── resume.astro
 │       └── contact.astro
 ├── scripts/
-│   └── ingest-projects.mjs # Project ingestion script
-└── public/assets/           # Copied media files
+│   ├── ingest-projects.mjs # Project media processing script
+│   └── compress-media.mjs  # Media compression utilities
+└── public/assets/           # Media files (synced from GCS)
 ```
 
 ## 🎨 Customization
@@ -103,16 +103,13 @@ The system supports 5 template types:
 - **`caseStudy`**: Structured sections for technical projects
 - **`minimal`**: Clean typography-focused layout
 
-### Ingest Script Options
+### Media Processing Scripts
 
 ```bash
-# Scan projects (no changes)
-npm run scan
-
-# Ingest all projects
+# Process media from draft projects
 npm run ingest
 
-# Ingest specific project
+# Process specific project
 npm run ingest -- --only=project-name
 
 # Dry run (see what would happen)
@@ -121,8 +118,8 @@ npm run ingest -- --dry-run
 # Force overwrite existing files
 npm run ingest -- --force
 
-# Filter by pattern
-npm run ingest -- --match="arcade|van"
+# Append new media to existing project
+npm run ingest -- --append --only=project-name
 
 # Get help
 npm run ingest -- --help
@@ -136,14 +133,13 @@ Create MDX files in `src/content/projects/`:
 ---
 title: "My Project"
 blurb: "Short description"
-description: "Full project description"
 date: "2024-01-15"
 template: "default"
 status: "complete"
 featured: false
 media:
   - type: image
-    src: "/assets/projects/my-project/image.jpg"
+    src: "/astro-portfolio/assets/projects/my-project/image.jpg"
     alt: "Project image"
 links:
   - label: "GitHub"

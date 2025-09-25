@@ -293,10 +293,105 @@ async function processProjectMedia(projectData, folderPath) {
       }
     }
     
+    // Generate MDX file if it doesn't exist
+    await generateMDXFile(slug, mediaFiles, subfolders);
+    
     log(`✅ Processed project: ${slug}`, 'success');
     
   } catch (error) {
     log(`Error processing ${slug}: ${error.message}`, 'error');
+  }
+}
+
+async function generateMDXFile(slug, mediaFiles, subfolders) {
+  const mdxPath = path.join(projectRoot, 'src/content/projects', `${slug.toLowerCase().replace(/\s+/g, '_')}.mdx`);
+  
+  // Check if MDX file already exists
+  try {
+    await fs.access(mdxPath);
+    log(`MDX file already exists: ${path.basename(mdxPath)}`, 'info');
+    return;
+  } catch {
+    // File doesn't exist, create it
+  }
+  
+  // Create media array for frontmatter
+  const mediaArray = [];
+  
+  // Add media files
+  for (const file of mediaFiles) {
+    const mediaType = getMediaType(file);
+    if (mediaType !== 'unknown') {
+      mediaArray.push({
+        type: mediaType,
+        src: `/astro-portfolio/assets/projects/${slug}/${file}`,
+        alt: `${slug} - ${file}`,
+        caption: file
+      });
+    }
+  }
+  
+  // Add GIFs from subfolders
+  for (const subfolder of subfolders) {
+    const subfolderPath = path.join(projectRoot, 'draft_projects', slug, subfolder);
+    const subfolderFiles = await fs.readdir(subfolderPath);
+    const imageFiles = getImageFiles(subfolderFiles);
+    
+    if (imageFiles.length > 1) {
+      mediaArray.push({
+        type: 'gif',
+        src: `/astro-portfolio/assets/projects/${slug}/${subfolder}.gif`,
+        alt: `${slug} - ${subfolder}`,
+        caption: `${subfolder}.gif`
+      });
+    }
+  }
+  
+  // Generate MDX content
+  const mdxContent = `---
+title: "${slug}"
+blurb: "A collection of ${slug.toLowerCase()} work"
+date: "${new Date().toISOString().split('T')[0]}"
+template: "gallery"
+status: "complete"
+featured: false
+media:
+${mediaArray.map(item => `  - type: ${item.type}
+    src: "${item.src}"
+    alt: "${item.alt}"
+    caption: "${item.caption}"`).join('\n')}
+---
+
+# ${slug}
+
+This project showcases various ${slug.toLowerCase()} work and experiments.
+
+## Overview
+
+A collection of images and videos documenting the ${slug.toLowerCase()} process and results.
+
+## Gallery
+
+import Gallery from '../../components/Gallery.astro';
+
+<Gallery media={[
+${mediaArray.map(item => `  { type: "${item.type}", src: "${item.src}", alt: "${item.alt}", caption: "${item.caption}" }`).join(',\n')}
+]} />
+
+## Process
+
+The ${slug.toLowerCase()} work involved various techniques and approaches, captured in the media above.
+
+## Results
+
+Each piece represents a step in the creative process, from initial concepts to final implementations.
+`;
+
+  try {
+    await fs.writeFile(mdxPath, mdxContent);
+    log(`Created MDX file: ${path.basename(mdxPath)}`, 'success');
+  } catch (error) {
+    log(`Failed to create MDX file: ${error.message}`, 'error');
   }
 }
 

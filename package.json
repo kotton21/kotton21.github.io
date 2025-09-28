@@ -11,8 +11,8 @@
     "ingest:dry": "node scripts/ingest-projects.mjs --dry-run",
     "compress": "node scripts/compress-media.mjs",
     "purge": "node scripts/purge-unused-media.mjs",
-    "media:pull": "gsutil -m cp -r gs://karlsbayer-portfolio-media/assets/* public/assets/",
-    "media:push": "gsutil -m cp -r public/assets/* gs://karlsbayer-portfolio-media/assets/",
+    "media:pull": "gsutil -m rsync -r -u gs://karlsbayer-portfolio-media/assets/ public/assets/",
+    "media:push": "gsutil -m rsync -r -u public/assets/ gs://karlsbayer-portfolio-media/assets/",
     "media:sync": "npm run media:pull && npm run media:push",
     "dev:setup": "npm run media:pull && npm run dev"
   },

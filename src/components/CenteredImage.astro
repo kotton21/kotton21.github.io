@@ -1,4 +1,6 @@
 ---
+import { MEDIA_BASE_URL } from '../config/media';
+
 export interface Props {
   src: string;
   alt: string;
@@ -9,6 +11,20 @@ export interface Props {
 
 const { src, alt, caption, width = "100%", height = "auto" } = Astro.props;
 
+// Helper function to get the full media URL
+function getMediaUrl(src: string): string {
+  // If src already starts with http or is a full URL, return as-is
+  if (src.startsWith('http') || src.startsWith('//')) {
+    return src;
+  }
+  // If src starts with /astro-portfolio/assets, replace with MEDIA_BASE_URL
+  if (src.startsWith('/astro-portfolio/assets')) {
+    return src.replace('/astro-portfolio/assets', MEDIA_BASE_URL);
+  }
+  // Otherwise, prepend MEDIA_BASE_URL
+  return `${MEDIA_BASE_URL}${src.startsWith('/') ? '' : '/'}${src}`;
+}
+
 // Determine if the file is a video based on extension
 const isVideo = (src: string) => {
   const videoExtensions = ['.mp4', '.mov', '.avi', '.webm', '.ogg'];
@@ -16,21 +32,25 @@ const isVideo = (src: string) => {
 };
 
 const mediaType = isVideo(src) ? 'video' : 'image';
+const mediaUrl = getMediaUrl(src);
 ---
 
 <div class="centered-media">
   {mediaType === 'video' ? (
     <video 
-      src={src} 
+      src={mediaUrl} 
       controls
+      muted
       preload="metadata"
+      onmouseover="this.play()"
+      onmouseout="this.pause()"
       style={`width: ${width}; height: ${height};`}
     >
-      <p>Your browser doesn't support HTML5 video. <a href={src}>Download the video</a> instead.</p>
+      <p>Your browser doesn't support HTML5 video. <a href={mediaUrl}>Download the video</a> instead.</p>
     </video>
   ) : (
     <img 
-      src={src} 
+      src={mediaUrl} 
       alt={alt}
       style={`width: ${width}; height: ${height};`}
     />

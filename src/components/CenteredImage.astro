@@ -1,5 +1,6 @@
 ---
 import { MEDIA_BASE_URL } from '../config/media';
+import Lightbox from './Lightbox.astro';
 
 export interface Props {
   src: string;
@@ -7,9 +8,10 @@ export interface Props {
   caption?: string;
   width?: string;
   height?: string;
+  lightboxId?: string;
 }
 
-const { src, alt, caption, width = "100%", height = "auto" } = Astro.props;
+const { src, alt, caption, width = "100%", height = "auto", lightboxId = 'centered-image-lightbox' } = Astro.props;
 
 // Helper function to get the full media URL
 function getMediaUrl(src: string): string {
@@ -45,6 +47,11 @@ const mediaUrl = getMediaUrl(src);
       onmouseover="this.play()"
       onmouseout="this.pause()"
       style={`width: ${width}; height: ${height};`}
+      class="centered-media-item"
+      data-type="video"
+      data-src={mediaUrl}
+      data-alt={alt}
+      data-caption={caption || ''}
     >
       <p>Your browser doesn't support HTML5 video. <a href={mediaUrl}>Download the video</a> instead.</p>
     </video>
@@ -53,9 +60,17 @@ const mediaUrl = getMediaUrl(src);
       src={mediaUrl} 
       alt={alt}
       style={`width: ${width}; height: ${height};`}
+      class="centered-media-item"
+      data-type="image"
+      data-src={mediaUrl}
+      data-alt={alt}
+      data-caption={caption || ''}
     />
   )}
   {caption && <p class="media-caption">{caption}</p>}
+  
+  <!-- Lightbox Modal -->
+  <Lightbox id={lightboxId} />
 </div>
 
 <style>
@@ -78,6 +93,7 @@ const mediaUrl = getMediaUrl(src);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
     transition: transform 0.2s ease;
     object-fit: contain; /* Maintain aspect ratio while fitting within container */
+    cursor: pointer;
   }
 
   .centered-media img:hover,
@@ -117,3 +133,34 @@ const mediaUrl = getMediaUrl(src);
     }
   }
 </style>
+
+<script is:inline define:vars={{ lightboxId }}>
+  // Initialize centered image lightbox
+  document.addEventListener('DOMContentLoaded', function() {
+    const container = document.querySelector('.centered-media');
+    if (!container) return;
+    
+    const mediaItem = container.querySelector('.centered-media-item');
+    if (!mediaItem) return;
+    
+    mediaItem.addEventListener('click', function() {
+      const type = this.dataset.type;
+      const src = this.dataset.src;
+      const alt = this.dataset.alt;
+      const caption = this.dataset.caption;
+      
+      // Create media array with single item
+      const allMedia = [{
+        type: type,
+        src: src,
+        alt: alt,
+        caption: caption
+      }];
+      
+      // Use the global lightbox function
+      if (window[`openLightbox_${lightboxId}`]) {
+        window[`openLightbox_${lightboxId}`](type, src, alt, 0, allMedia);
+      }
+    });
+  });
+</script>

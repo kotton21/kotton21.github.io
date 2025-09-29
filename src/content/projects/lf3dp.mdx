@@ -18,6 +18,7 @@ media:
 ---
 
 import CenteredImage from '../../components/CenteredImage.astro';
+import Gallery from '../../components/Gallery.astro';
 
 # LF3DP Features
 
@@ -33,7 +34,7 @@ A fully custom Ceramic 3D Printer, built from scratch, designed to be the workho
 
 A pile of parts on my dining room table:
 
-<CenteredImage src="/astro-portfolio/assets/projects/LF3DP/20230606_194540.jpg" alt="Technical LF3DP result" />
+<CenteredImage src="/astro-portfolio/assets/projects/LF3DP/20230606_194540.jpg" alt="Technical LF3DP result" lightboxId="lf3dp-where-started" />
 
 
 
@@ -42,7 +43,7 @@ A pile of parts on my dining room table:
 ## The First "Print" (sortof)
 
 Technically, this object was 3d printed.. right? 
-<CenteredImage src="/astro-portfolio/assets/projects/LF3DP/20231014_163200.mp4" alt="Early LF3DP experiment" />
+<CenteredImage src="/astro-portfolio/assets/projects/LF3DP/20231014_163200.mp4" alt="Early LF3DP experiment" lightboxId="lf3dp-first-print" />
 
 
 ## Some key moments
@@ -52,7 +53,7 @@ Moments like, when I learned I need to move the y axis out of the way before tur
   { type: "image", src: "/astro-portfolio/assets/projects/LF3DP/20231104_221733.jpg", alt: "LF3DP - 20231104_221733.jpg", caption: "20231104_221733.jpg" },
   { type: "image", src: "/astro-portfolio/assets/projects/LF3DP/20231107_230517.jpg", alt: "LF3DP - 20231107_230517.jpg", caption: "20231107_230517.jpg" },
 
-]} />
+]} lightboxId="lf3dp-key-moments" />
 
 ## Design flaws..
 
@@ -64,8 +65,6 @@ Moments like, when I learned I need to move the y axis out of the way before tur
 Overall, the build was lots of and I learned a lot, but I'm not convinced the build was worth the time cost of the design/itteration. At the time, I felt that I had to build it because I couldn't find an appripriate large format printer that I liked that was large format, a stationary build platform, and cost effective. 
 
 ## Media Dump:
-
-import Gallery from '../../components/Gallery.astro';
 
 <Gallery media={[
   { type: "image", src: "/astro-portfolio/assets/projects/LF3DP/20230606_194540.jpg", alt: "LF3DP - 20230606_194540.jpg", caption: "20230606_194540.jpg" },
@@ -100,7 +99,6 @@ import Gallery from '../../components/Gallery.astro';
   { type: "video", src: "/astro-portfolio/assets/projects/LF3DP/20231028_174541.mp4", alt: "LF3DP - 20231028_174541.mp4", caption: "20231028_174541.mp4" },
   { type: "video", src: "/astro-portfolio/assets/projects/LF3DP/20231029_232620.mp4", alt: "LF3DP - 20231029_232620.mp4", caption: "20231029_232620.mp4" },
   { type: "video", src: "/astro-portfolio/assets/projects/LF3DP/20231030_002918.mp4", alt: "LF3DP - 20231030_002918.mp4", caption: "20231030_002918.mp4" },
-  { type: "image", src: "/astro-portfolio/assets/projects/LF3DP/20231101_210716(0).jpg", alt: "LF3DP - 20231101_210716(0).jpg", caption: "20231101_210716(0).jpg" },
   { type: "video", src: "/astro-portfolio/assets/projects/LF3DP/20231102_145507.mp4", alt: "LF3DP - 20231102_145507.mp4", caption: "20231102_145507.mp4" },
   { type: "video", src: "/astro-portfolio/assets/projects/LF3DP/20231102_163512.mp4", alt: "LF3DP - 20231102_163512.mp4", caption: "20231102_163512.mp4" },
   { type: "video", src: "/astro-portfolio/assets/projects/LF3DP/20231102_163553.mp4", alt: "LF3DP - 20231102_163553.mp4", caption: "20231102_163553.mp4" },
@@ -109,4 +107,4 @@ import Gallery from '../../components/Gallery.astro';
   { type: "image", src: "/astro-portfolio/assets/projects/LF3DP/20240307_114528.jpg", alt: "LF3DP - 20240307_114528.jpg", caption: "20240307_114528.jpg" },
   { type: "image", src: "/astro-portfolio/assets/projects/LF3DP/20240307_114547.jpg", alt: "LF3DP - 20240307_114547.jpg", caption: "20240307_114547.jpg" },
   { type: "video", src: "/astro-portfolio/assets/projects/LF3DP/InShot_20231107_214542171.mp4", alt: "LF3DP - InShot_20231107_214542171.mp4", caption: "InShot_20231107_214542171.mp4" }
-]} />
+]} lightboxId="lf3dp-media-dump" />

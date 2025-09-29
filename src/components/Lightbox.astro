@@ -1,0 +1,194 @@
+---
+export interface Props {
+  id?: string;
+}
+
+const { id = 'lightbox' } = Astro.props;
+---
+
+<!-- Lightbox Modal -->
+<div class="lightbox" data-lightbox={id}>
+  <div class="lightbox-content">
+    <button class="lightbox-close">&times;</button>
+    <button class="lightbox-prev">&lt;</button>
+    <button class="lightbox-next">&gt;</button>
+    <div class="lightbox-media">
+      <img class="lightbox-image" style="display: none;" />
+      <video class="lightbox-video" style="display: none;" controls autoplay muted playsinline></video>
+    </div>
+    <div class="lightbox-caption"></div>
+  </div>
+</div>
+
+<script is:inline define:vars={{ lightboxId: id }}>
+  // Initialize lightbox functionality
+  document.addEventListener('DOMContentLoaded', function() {
+    const lightbox = document.querySelector(`[data-lightbox="${lightboxId}"]`);
+    if (!lightbox) return;
+    
+    let currentMediaIndex = 0;
+    let allMedia = [];
+    const lightboxImage = lightbox.querySelector('.lightbox-image');
+    const lightboxVideo = lightbox.querySelector('.lightbox-video');
+    const lightboxCaption = lightbox.querySelector('.lightbox-caption');
+    
+    function openLightbox(type, src, alt, index, mediaArray) {
+      currentMediaIndex = index;
+      allMedia = mediaArray;
+      
+      if (type === 'image') {
+        lightboxImage.src = src;
+        lightboxImage.alt = alt;
+        lightboxImage.style.display = 'block';
+        lightboxVideo.style.display = 'none';
+      } else {
+        lightboxVideo.src = src;
+        lightboxVideo.style.display = 'block';
+        lightboxImage.style.display = 'none';
+        // Autoplay video when lightbox opens
+        lightboxVideo.play().catch(error => {
+          console.log('Video autoplay failed:', error);
+        });
+      }
+      
+      lightboxCaption.textContent = allMedia[index]?.caption || '';
+      lightbox.style.display = 'flex';
+    }
+    
+    function closeLightbox() {
+      lightbox.style.display = 'none';
+    }
+    
+    function showPrev() {
+      if (currentMediaIndex > 0) {
+        currentMediaIndex--;
+        const media = allMedia[currentMediaIndex];
+        openLightbox(media.type, media.src, media.alt, currentMediaIndex, allMedia);
+      }
+    }
+    
+    function showNext() {
+      if (currentMediaIndex < allMedia.length - 1) {
+        currentMediaIndex++;
+        const media = allMedia[currentMediaIndex];
+        openLightbox(media.type, media.src, media.alt, currentMediaIndex, allMedia);
+      }
+    }
+    
+    // Add button listeners
+    const lightboxClose = lightbox.querySelector('.lightbox-close');
+    const lightboxPrev = lightbox.querySelector('.lightbox-prev');
+    const lightboxNext = lightbox.querySelector('.lightbox-next');
+    
+    if (lightboxClose) {
+      lightboxClose.addEventListener('click', closeLightbox);
+    }
+    if (lightboxPrev) {
+      lightboxPrev.addEventListener('click', showPrev);
+    }
+    if (lightboxNext) {
+      lightboxNext.addEventListener('click', showNext);
+    }
+    
+    // Close on background click
+    lightbox.addEventListener('click', function(e) {
+      if (e.target === this) {
+        closeLightbox();
+      }
+    });
+    
+    // Keyboard navigation
+    document.addEventListener('keydown', function(e) {
+      if (lightbox.style.display === 'flex') {
+        if (e.key === 'Escape') {
+          closeLightbox();
+        } else if (e.key === 'ArrowLeft') {
+          showPrev();
+        } else if (e.key === 'ArrowRight') {
+          showNext();
+        }
+      }
+    });
+    
+    // Expose openLightbox function globally for this lightbox instance
+    window[`openLightbox_${lightboxId}`] = openLightbox;
+  });
+</script>
+
+<style>
+  /* Lightbox Styles */
+  .lightbox {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .lightbox-content {
+    position: relative;
+    max-width: 90vw;
+    max-height: 90vh;
+  }
+
+  .lightbox-media img,
+  .lightbox-media video {
+    max-width: 100%;
+    max-height: 80vh;
+    object-fit: contain;
+  }
+
+  .lightbox-close,
+  .lightbox-prev,
+  .lightbox-next {
+    position: absolute;
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    border: none;
+    font-size: 2rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .lightbox-close {
+    top: -60px;
+    right: 0;
+  }
+
+  .lightbox-prev {
+    left: -60px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  .lightbox-next {
+    right: -60px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  .lightbox-caption {
+    color: white;
+    text-align: center;
+    margin-top: 1rem;
+    font-size: 1rem;
+  }
+
+  @media (max-width: 768px) {
+    .lightbox-prev,
+    .lightbox-next {
+      display: none;
+    }
+  }
+</style>

@@ -37,7 +37,7 @@ const mediaType = isVideo(src) ? 'video' : 'image';
 const mediaUrl = getMediaUrl(src);
 ---
 
-<div class="centered-media">
+<div class="centered-media" data-lightbox-container={lightboxId}>
   {mediaType === 'video' ? (
     <video 
       src={mediaUrl} 
@@ -137,17 +137,18 @@ const mediaUrl = getMediaUrl(src);
 <script is:inline define:vars={{ lightboxId }}>
   // Initialize centered image lightbox
   document.addEventListener('DOMContentLoaded', function() {
-    const container = document.querySelector('.centered-media');
-    if (!container) return;
+    // Find all containers with this specific lightbox ID
+    const containers = document.querySelectorAll(`[data-lightbox-container="${lightboxId}"]`);
     
-    const mediaItem = container.querySelector('.centered-media-item');
-    if (!mediaItem) return;
+    containers.forEach(container => {
+      const mediaItem = container.querySelector('.centered-media-item');
+      if (!mediaItem) return;
     
-    mediaItem.addEventListener('click', function() {
-      const type = this.dataset.type;
-      const src = this.dataset.src;
-      const alt = this.dataset.alt;
-      const caption = this.dataset.caption;
+    function openLightbox() {
+      const type = mediaItem.dataset.type;
+      const src = mediaItem.dataset.src;
+      const alt = mediaItem.dataset.alt;
+      const caption = mediaItem.dataset.caption;
       
       // Create media array with single item
       const allMedia = [{
@@ -161,6 +162,19 @@ const mediaUrl = getMediaUrl(src);
       if (window[`openLightbox_${lightboxId}`]) {
         window[`openLightbox_${lightboxId}`](type, src, alt, 0, allMedia);
       }
+    }
+    
+    // Add click listener to the media item
+    mediaItem.addEventListener('click', openLightbox);
+    
+    // For videos, also add click listener to the video element itself
+    if (mediaItem.tagName === 'VIDEO') {
+      mediaItem.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        openLightbox();
+      });
+    }
     });
   });
 </script>

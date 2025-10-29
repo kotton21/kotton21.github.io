@@ -24,12 +24,29 @@ import Gallery from '../../components/Gallery.astro';
 
 # LF3DP Features
 
-A fully custom Ceramic 3D Printer, built from scratch, designed to be the workhorse of my studio. This printer was designed with a large build platter to be able to print many small pieces in succession, or a smaller number of large pieces. This project showcases various LF3DP (Large Format 3D Printing) work and experiments.
+A fully custom Ceramic 3D Printer, built from scratch, designed to be the workhorse of my studio. This printer was designed with a large build platter to be able to print many small pieces in quick succession, or a smaller number of large pieces. This project showcases various LF3DP (Large Format 3D Printer) experiments and completed works.
 
  - Buildable Area: 600mm W x 900mm L x 700mm H
- - No bells and whistles, just a large build platform cartesian system
+ - No bells and whistles, basically just a large build platform cartesian YZX system
  - Putter style (positive displacement) clay reservoir
- - An auger style extruder head to enable start/stop prints
+ - An auger style extruder head to enable extrusion start/stop prints
+
+## why did I need to build this printer?
+Why couldn't I buy an existing clay 3d printer, or another large format 3d printer and retrofit it? After all, even generic or cheap plastic printers have more than enough dimensional accuracy and backlash specs for a clay printer (with much larger layer heights and bead sizes, small innaccuracies are not noticable as they are when using a .4mm nozzle as you are in most plastic fdm printing)
+
+Printer requirements: no bed slinging! No movement of the printed parts in X or Y dimensions: some of the most popular clay 3d printers use a stationary z block and sling the x and y axes. The 3d potter printers are also way overpriced for what they are. 
+
+Clay printers are something of a specialty item: even a small printer will run you 6K from 3D potter :(
+
+Edit: since I built this printer, the Tronxy Moore 1 has become a pretty impressive basic 180mm bed slinger printer. Tronxy also has a few large format options now, but still not big enough. I wanted 700mm minimum in Z height.
+
+Fully stationary part: no movement of the part at all?
+
+Simple construction: I kinda wanted the experience of designing and building a printer, so I was leaning in this direction anyway. 
+
+Open source clay supply and extruder
+
+Large format: the selection of available printers in large format scale is very small. 
 
 
 ## Where we started
@@ -37,8 +54,6 @@ A fully custom Ceramic 3D Printer, built from scratch, designed to be the workho
 A pile of parts on my dining room table:
 
 <CenteredImage src="/astro-portfolio/assets/projects/LF3DP/20230606_194540.jpg" alt="Technical LF3DP result" lightboxId="lf3dp-where-started" />
-
-
 
 
 
@@ -65,6 +80,13 @@ Moments like, when I learned I need to move the y axis out of the way before tur
  - Should swap the z and x axis so that the x crossbar doesn't come down on existing pieces for multi-part prints. 
 
 Overall, the build was lots of and I learned a lot, but I'm not convinced the build was worth the time cost of the design/itteration. At the time, I felt that I had to build it because I couldn't find an appripriate large format printer that I liked that was large format, a stationary build platform, and cost effective. 
+
+
+## How would I approach this problem now:
+I would really emphasize not trying to reinvent a wheel. I'd sacrifice the stationary build platform requirement for the Z dimension only, if the z axis used lead screws, not timing belts (so there's enough torque for the weight of the clay)
+
+I've since designed and built a pneumatic powered clay reservoir. This is easier to control, and easier to fill
+
 
 ## Media Dump:
 

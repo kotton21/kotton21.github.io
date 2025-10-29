@@ -2,12 +2,41 @@
 title: "Autoposter"
 sortOrder: 6
 template: "minimal"
-status: "draft"
+status: "wip"
 featured: false
 ---
 
 Autoposter: An AI personality assited instagram poster
 
-My clay 3d printer needed a personality. So I built this system to automate an instagram account for the robot in order to emulate the 3d printer as a sentient robot artist. 
+My clay 3d printer needed a personality. So I built this system to automate an instagram account for the robot.
+
+The basic function of the system is to present the 3d printer as a sentient robot artist. 
+
+The system has two primary components:
+- Content generation: generating content from the available resources
+- Instagram account control: Posting videos, and autoreplying to comments
+
 
 The system automatically generates content from a catalog of existing images and videos of my art, then it manages instagram posts and comments from its personality.
+
+
+Resources:
+- Instagram account insights (new followers, comment and like counts, post history)
+- Media Library: 
+    - A collection of timelapse videos of the 3d printer
+    - Images and videos of Completed Works
+    - Build vidos of the 3d printer being constructed
+- A description of the media library and how to use it
+- A Personally/History document of the 3d printer's "personality"
+- Post Request
+
+Basic flow:
+1. Request list of media files from the media library
+2. Request most recent instagram insights
+3. Upload all resources to a GPT model
+4. Request a "social media post" from the gpt model based on the resources, and the personality document
+5. Parse the response, and upload the response to the json2video api
+6. Download the video from the json2video api
+7. Upload the video and it's caption to instagram
+
+@karlsbayer

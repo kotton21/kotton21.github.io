@@ -47,6 +47,9 @@ const processedMedia = media.map(item => ({
 <script define:vars={{ heroMedia: processedMedia, intervalMs: interval }}>
   console.log('HeroCarousel script loading...', heroMedia);
   
+  // Convert interval (ms) to seconds for CSS animation duration
+  const kenBurnsDuration = `${intervalMs / 1000 + 3}s`;
+  
   let currentMediaIndex = 0;
   let mediaElements = [];
   let container;
@@ -95,6 +98,16 @@ const processedMedia = media.map(item => ({
       container.appendChild(element);
       mediaElements.push(element);
       console.log('Added element:', media.type, media.src);
+      
+      // Explicitly start Ken Burns animation for the first image
+      if (index === 0 && (media.type === "image" || media.type === "gif")) {
+        // Trigger animation by resetting it (same technique as changeHeroMedia)
+        setTimeout(() => {
+          element.style.animation = 'none';
+          element.offsetHeight; // Trigger reflow
+          element.style.animation = `kenBurnsZoom ${kenBurnsDuration} ease-in-out infinite`;
+        }, 100);
+      }
     });
   }
 
@@ -104,6 +117,14 @@ const processedMedia = media.map(item => ({
     const currentElement = mediaElements[currentMediaIndex];
     currentMediaIndex = (currentMediaIndex + 1) % heroMedia.length;
     const nextElement = mediaElements[currentMediaIndex];
+    
+    // Reset Ken Burns animation on next element BEFORE fading it in
+    // This ensures the animation starts from the beginning
+    if (heroMedia[currentMediaIndex].type === "image" || heroMedia[currentMediaIndex].type === "gif") {
+      nextElement.style.animation = 'none';
+      nextElement.offsetHeight; // Trigger reflow
+      nextElement.style.animation = `kenBurnsZoom ${kenBurnsDuration} ease-in-out infinite`;
+    }
     
     // Fade out current element
     currentElement.style.opacity = '0';
@@ -117,13 +138,6 @@ const processedMedia = media.map(item => ({
         nextElement.play().catch(e => console.log('Video play failed:', e));
       }
       
-      // If it's an image, reset the Ken Burns animation
-      if (heroMedia[currentMediaIndex].type === "image" || heroMedia[currentMediaIndex].type === "gif") {
-        nextElement.style.animation = 'none';
-        nextElement.offsetHeight; // Trigger reflow
-        nextElement.style.animation = 'kenBurnsZoom 3s ease-in-out infinite';
-      }
-      
       // Pause previous video if it was a video
       if (heroMedia[(currentMediaIndex - 1 + heroMedia.length) % heroMedia.length].type === "video") {
         currentElement.pause();
@@ -133,6 +147,12 @@ const processedMedia = media.map(item => ({
 
   // Initialize media elements when page loads
   document.addEventListener('DOMContentLoaded', () => {
+    // Set CSS custom property for animation duration
+    const container = document.getElementById('hero-media-container');
+    if (container) {
+      container.style.setProperty('--ken-burns-duration', kenBurnsDuration);
+    }
+    
     createMediaElements();
     
     // Start cycling after 2 seconds
@@ -165,19 +185,19 @@ const processedMedia = media.map(item => ({
   }
 
   .hero-media img.ken-burns {
-    animation: kenBurnsZoom 3s ease-in-out infinite;
+    animation: kenBurnsZoom var(--ken-burns-duration, 4s) ease-in-out infinite;
   }
 
   @keyframes kenBurnsZoom {
     0% {
       transform: scale(1) translateY(0%);
     }
-    50% {
+    100% {
       transform: scale(1.05) translateY(-2%);
     }
-    100% {
+    /* 100% {
       transform: scale(1) translateY(0%);
-    }
+    } */
   }
 
   .hero-media::after {

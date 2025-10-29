@@ -1,10 +1,10 @@
 // Site configuration
 export const siteConfig = {
   // Site metadata
-  name: "My Portfolio",
-  owner: "Karl S Bayer",
+  name: "Karl's Portfolio",
+  owner: "Karl Scribante Bayer",
   tagline: "I like building things that, for whatever reason, need to be built",
-  description: "Disclaimer: Some of the things I've built are not good. And some of them have, in fact, been built before.",
+  description: "Below lives a collection of my random things I've built. Each project posed a unique challenge and hyperfixation into some new topic I found interesting. Disclaimer: Some of the things I've built have, in fact, been built before.",
   
   // Contact information
   contact: {
@@ -23,7 +23,7 @@ export const siteConfig = {
   
   // Navigation
   navigation: [
-    { name: "Stuff I've Built", href: "/astro-portfolio/projects" },
+    { name: "All Projects", href: "/astro-portfolio/projects" },
     { name: "Resume", href: "/astro-portfolio/resume" },
     { name: "Contact", href: "/astro-portfolio/#contact" }
   ]

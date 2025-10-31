@@ -23,9 +23,9 @@ export const siteConfig = {
   
   // Navigation
   navigation: [
-    { name: "All Projects", href: "/astro-portfolio/projects" },
-    { name: "Resume", href: "/astro-portfolio/resume" },
-    { name: "Contact", href: "/astro-portfolio/#contact" }
+    { name: "All Projects", href: "/projects" },
+    { name: "Resume", href: "/resume" },
+    { name: "Contact", href: "/#contact" }
   ]
 };
 

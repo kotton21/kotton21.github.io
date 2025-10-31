@@ -28,7 +28,7 @@ const thumbnailSrc = rawThumbnailSrc.startsWith('data:') ? rawThumbnailSrc : get
 const thumbnailAlt = data.media?.[0]?.alt || data.title;
 ---
 
-<a href={`/astro-portfolio/projects/${slug}`} class="featured-project-card">
+<a href={`/projects/${slug}`} class="featured-project-card">
   <div class="card-content">
     <h3>{data.title}</h3>
     {data.blurb && <p class="blurb">{data.blurb}</p>}

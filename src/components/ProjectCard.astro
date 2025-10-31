@@ -29,7 +29,7 @@ const thumbnailSrc = rawThumbnailSrc.startsWith('data:') ? rawThumbnailSrc : get
 const thumbnailAlt = data.media?.[0]?.alt || data.title;
 ---
 
-<a href={`/astro-portfolio/projects/${slug}`} class={`project-card ${featured ? 'featured' : ''}`}>
+<a href={`/projects/${slug}`} class={`project-card ${featured ? 'featured' : ''}`}>
   <div class="card-image">
     <img src={thumbnailSrc} alt={thumbnailAlt} />
     {data.status === 'wip' && <span class="status-badge wip">WIP</span>}

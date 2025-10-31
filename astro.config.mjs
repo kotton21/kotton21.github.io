@@ -5,8 +5,10 @@ import mdx from '@astrojs/mdx';
 // https://astro.build/config
 export default defineConfig({
   integrations: [mdx()],
-  site: 'https://kotton21.github.io/astro-portfolio/', // Your GitHub Pages URL
-  base: '/astro-portfolio', // Use base path for both dev and production
+  // Use custom domain when available, fallback to GitHub Pages
+  site: 'https://www.karlsbayer.com',
+  // Remove base path for custom domain - assets will load from root
+  base: '/',
   vite: {
     build: {
       rollupOptions: {

@@ -13,6 +13,7 @@
     "purge": "node scripts/purge-unused-media.mjs",
     "media:pull": "gsutil -m rsync -r -u gs://karlsbayer-portfolio-media/assets/ public/assets/",
     "media:push": "gsutil -m rsync -r -u public/assets/ gs://karlsbayer-portfolio-media/assets/",
+    "media:push:dry": "gsutil -m rsync -r -u -n public/assets/ gs://karlsbayer-portfolio-media/assets/",
     "media:sync": "npm run media:pull && npm run media:push",
     "dev:setup": "npm run media:pull && npm run dev"
   },

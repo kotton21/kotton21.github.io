@@ -27,6 +27,8 @@ const { currentPage = '', logoText, includeArrow = false } = Astro.props;
         <a 
           href={nav.href} 
           class={currentPage === nav.name.toLowerCase() ? 'active' : ''}
+          target={nav.target || undefined}
+          rel={nav.target === '_blank' ? 'noopener noreferrer' : undefined}
         >
           {nav.name}
         </a>
@@ -46,6 +48,8 @@ const { currentPage = '', logoText, includeArrow = false } = Astro.props;
         <a 
           href={nav.href} 
           class={currentPage === nav.name.toLowerCase() ? 'active' : ''}
+          target={nav.target || undefined}
+          rel={nav.target === '_blank' ? 'noopener noreferrer' : undefined}
         >
           {nav.name}
         </a>

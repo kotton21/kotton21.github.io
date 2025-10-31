@@ -24,7 +24,12 @@ export const siteConfig = {
   // Navigation
   navigation: [
     { name: "All Projects", href: "/projects" },
-    { name: "Resume", href: "/resume" },
+    { 
+      name: "Resume", 
+      href: "https://drive.google.com/file/d/1d0ciR6b7yTiw-lbge2PGQsCI4UflKEI9/view?usp=drive_link", 
+      external: true, 
+      target: "_blank" 
+    },
     { name: "Contact", href: "/#contact" }
   ]
 };

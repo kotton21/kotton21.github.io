@@ -1,4 +1,5 @@
 ---
+import { MEDIA_BASE_URL } from '../../config/media';
 
 export interface Props {
   project: any;
@@ -7,9 +8,35 @@ export interface Props {
 const { project } = Astro.props;
 const { data } = project;
 
+// Helper function to get the full media URL
+function getMediaUrl(src: string): string {
+  if (!src) return src;
+  // If src already starts with http or is a full URL, return as-is
+  if (src.startsWith('http') || src.startsWith('//')) {
+    return src;
+  }
+  // If src starts with /astro-portfolio/assets, replace with MEDIA_BASE_URL
+  if (src.startsWith('/astro-portfolio/assets')) {
+    const replaced = src.replace('/astro-portfolio/assets', MEDIA_BASE_URL);
+    return replaced;
+  }
+  // Otherwise, prepend MEDIA_BASE_URL
+  return `${MEDIA_BASE_URL}${src.startsWith('/') ? '' : '/'}${src}`;
+}
+
+// Process media URLs before using them
+const processedMedia = (data.media || []).map((media: any) => {
+  const processedSrc = getMediaUrl(media.src);
+  return {
+    ...media,
+    src: processedSrc
+  };
+});
+
 // Get hero video (first video or specified hero video)
-const heroVideo = data.heroVideo || data.media?.find(m => m.type === 'video')?.src;
-const otherMedia = data.media?.filter(m => m.src !== heroVideo) || [];
+// If heroVideo is specified, process its URL too
+const heroVideo = data.heroVideo ? getMediaUrl(data.heroVideo) : processedMedia.find((m: any) => m.type === 'video')?.src;
+const otherMedia = processedMedia.filter((m: any) => m.src !== heroVideo) || [];
 ---
 
 
@@ -28,15 +55,23 @@ const otherMedia = data.media?.filter(m => m.src !== heroVideo) || [];
       {data.date && <time class="project-date">{data.date}</time>}
     </header>
 
-    <script define:vars={{ projectMedia: data.media || [] }}>
+    <script define:vars={{ projectMedia: processedMedia, mediaBaseUrl: MEDIA_BASE_URL }}>
       console.log('VideoFirst template script loading...', projectMedia);
+      console.log('MEDIA_BASE_URL:', mediaBaseUrl);
       
-      // Convert project media to cycling format
-      const heroMedia = projectMedia.map(media => ({
-        src: media.src,
-        type: media.type,
-        alt: media.alt || ''
-      }));
+      // Convert project media to cycling format, ensuring URLs are processed
+      const heroMedia = projectMedia.map(media => {
+        let src = media.src;
+        // Double-check URL processing in case define:vars serialization missed it
+        if (src && src.startsWith('/astro-portfolio/assets')) {
+          src = src.replace('/astro-portfolio/assets', mediaBaseUrl || '/assets');
+        }
+        return {
+          src: src,
+          type: media.type,
+          alt: media.alt || ''
+        };
+      });
 
       console.log('Hero media array:', heroMedia);
 
@@ -176,7 +211,7 @@ const otherMedia = data.media?.filter(m => m.src !== heroVideo) || [];
       <div class="project-links">
         <h3>Links</h3>
         <div class="links-list">
-          {data.links.map((link) => (
+          {data.links.map((link: any) => (
             <a href={link.url} target="_blank" class="project-link">
               {link.label}
             </a>

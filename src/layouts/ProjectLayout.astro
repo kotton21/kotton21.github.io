@@ -3,6 +3,7 @@ import DefaultTemplate from '../components/templates/DefaultTemplate.astro';
 import GalleryTemplate from '../components/templates/GalleryTemplate.astro';
 import VideoFirstTemplate from '../components/templates/VideoFirstTemplate.astro';
 import MinimalTemplate from '../components/templates/MinimalTemplate.astro';
+import Header from '../components/Header.astro';
 
 export interface Props {
   project: any;
@@ -36,18 +37,13 @@ const Template = getTemplate();
 		<meta name="generator" content={Astro.generator} />
 		<title>{data.title} - Portfolio</title>
 	</head>
-	<body>
-		<main>
-			<header>
-				<nav>
-					<a href="/astro-portfolio/">← Back to Portfolio</a>
-				</nav>
-			</header>
-			
-			<Template project={project}>
-				<slot />
-			</Template>
-		</main>
+    <body>
+        <Header currentPage="projects" logoText="Back to Projects" includeArrow={true} />
+        <main>
+            <Template project={project}>
+                <slot />
+            </Template>
+        </main>
 		
 		<style>
 			:root {
@@ -74,20 +70,10 @@ const Template = getTemplate();
 				margin: 0 auto;
 			}
 			
-			header {
-				margin-bottom: 3rem;
-			}
+            /* account for fixed header */
+            main { padding-top: 4.5rem; }
 			
-			nav a {
-				color: #ffffff;
-				text-decoration: none;
-				font-weight: 500;
-				transition: color 0.2s;
-			}
-			
-			nav a:hover {
-				color: var(--accent-color);
-			}
+            
 			
 			@media (max-width: 768px) {
 				main {

@@ -11,45 +11,19 @@ const projects = await getCollection('projects');
 // Get featured projects based on featured: true property
 const featuredProjects = projects
   .filter(project => project.data.featured === true)
-  .sort((a, b) => a.data.sortOrder - b.data.sortOrder);
+  .sort((a, b) => a.data.sortOrder - b.data.sortOrder)
+  .slice(0, 6);
 
-
-// Filter out invisible projects
-const visibleProjects = projects.filter(project => project.data.status !== 'invisible');
-
-// Sort projects by sortOrder (lower numbers first), then by slug for duplicates
-const sortedProjects = visibleProjects.sort((a, b) => {
-  // If both have sortOrder, sort by that (lower numbers first)
-  if (a.data.sortOrder !== undefined && b.data.sortOrder !== undefined) {
-    if (a.data.sortOrder !== b.data.sortOrder) {
-      return a.data.sortOrder - b.data.sortOrder;
-    }
-  }
-  
-  // If only one has sortOrder, prioritize it
-  if (a.data.sortOrder !== undefined && b.data.sortOrder === undefined) {
-    return -1; // a comes first
-  }
-  if (a.data.sortOrder === undefined && b.data.sortOrder !== undefined) {
-    return 1; // b comes first
-  }
-  
-  // If neither has sortOrder, or they're equal, sort by slug
-  return a.slug.localeCompare(b.slug);
-});
-
-// All visible projects in one list
-const allProjects = sortedProjects;
 
 // Hero carousel media
 const heroMedia = [
   { src: '/astro-portfolio/assets/site/20250327_130203.jpg', type: 'image', alt: 'Featured project' },
-  { src: '/astro-portfolio/assets/projects/light_mirror/20200325_230626.mp4', type: 'video', alt: 'Light Mirror project' },
+  { src: '/astro-portfolio/assets/site/20171209_161202_1shortcrop-1.mp4', type: 'video', alt: 'Light Mirror project' },
+  { src: '/astro-portfolio/assets/projects/light_mirror/20200325_230431.mp4', type: 'video', alt: 'Light Mirror project' },
   { src: '/astro-portfolio/assets/projects/arcade/20240304_174714.jpg', type: 'image', alt: 'Arcade project' },
   { src: '/astro-portfolio/assets/site/20250522_133326.jpg', type: 'image', alt: 'Featured project' },
   { src: '/astro-portfolio/assets/projects/burning_man/20220901_222706.mp4', type: 'video', alt: 'Burning Man project' },
   { src: '/astro-portfolio/assets/site/20250327_130224.jpg', type: 'image', alt: 'Featured project' },
-  { src: '/astro-portfolio/assets/projects/light_mirror/20200325_230431.mp4', type: 'video', alt: 'Light Mirror project' },
 //   { src: '/astro-portfolio/assets/projects/burning_man/20220829_231734.mp4', type: 'video', alt: 'Burning Man project' },
 ];
 
@@ -66,13 +40,13 @@ const heroMedia = [
 	<body>
 		<Header />
 		
-		<HeroCarousel media={heroMedia} height="70vh" interval={4000} />
+		<HeroCarousel media={heroMedia} height="50vh" interval={4000} />
 
 		<main class="main-content">
 			<!-- Hero Section -->
 			<section class="hero">
 				<div class="hero-content">
-					<h1 class="hero-name">{siteConfig.owner}</h1>
+					<!-- <h1 class="hero-name">{siteConfig.owner}</h1> -->
 					<p class="hero-title">{siteConfig.tagline}</p>
 					<p class="hero-description">
 						{siteConfig.description}
@@ -90,20 +64,20 @@ const heroMedia = [
 				</div>
 			</section> -->
 
-			<!-- Complete Projects -->
+			<!-- 6 Most Recent Featured Projects -->
 			<section class="project-section">
 				<!-- <h2>Complete Projects</h2> -->
 				<div class="projects-grid">
-					{allProjects.map((project) => (
+					{featuredProjects.map((project) => (
 						<ProjectCard project={project} />
 					))}
 				</div>
 			</section>
 
 			<!-- View All Projects Button -->
-			<!-- <section class="view-all-projects">
+			<section class="view-all-projects">
 				<a href="/astro-portfolio/projects" class="view-all-button">View All Projects</a>
-			</section> -->
+			</section>
 
 			<!-- Talk to Me Section -->
 			<section id="contact" class="contact-section">
@@ -304,12 +278,15 @@ const heroMedia = [
 			.view-all-projects {
 				margin-bottom: var(--section-spacing);
 				text-align: center;
-				padding: 2rem 0;
+				padding: 3rem 0 2rem; /* extra space above the button */
 			}
 
 			.view-all-button {
 				display: inline-block;
 				padding: 1rem 2rem;
+				width: 50%;
+				min-width: max-content; /* don't shrink smaller than its text */
+				text-align: center;
 				background: var(--accent-color);
 				color: white;
 				text-decoration: none;

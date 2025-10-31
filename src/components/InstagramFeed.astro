@@ -1,0 +1,33 @@
+---
+export interface Props {
+  widgetId: string; // e.g. "6bd7dd25-1e56-4a93-82f7-ab88bea62769"
+}
+
+const { widgetId } = Astro.props;
+---
+
+<div class={`elfsight-app-${widgetId}`} data-elfsight-app-lazy></div>
+
+<script>
+  // Load Elfsight platform script once per page
+  (function ensureElfsightScriptLoaded() {
+    const SRC = "https://elfsightcdn.com/platform.js";
+    const EXISTING = document.querySelector(`script[src="${SRC}"]`);
+    if (!EXISTING) {
+      const s = document.createElement('script');
+      s.src = SRC;
+      s.async = true;
+      document.head.appendChild(s);
+    }
+  })();
+</script>
+
+<style>
+  /* Optional: make the feed full-width and nicely spaced */
+  .elfsight-app-:where(*) {
+    display: block;
+    margin: 1.5rem 0;
+  }
+</style>
+
+

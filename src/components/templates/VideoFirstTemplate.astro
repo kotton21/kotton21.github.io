@@ -1,5 +1,4 @@
 ---
-import Header from '../Header.astro';
 
 export interface Props {
   project: any;
@@ -13,7 +12,6 @@ const heroVideo = data.heroVideo || data.media?.find(m => m.type === 'video')?.s
 const otherMedia = data.media?.filter(m => m.src !== heroVideo) || [];
 ---
 
-<Header currentPage="projects" logoText="Back to Projects" includeArrow={true} />
 
 <article class="project-detail video-first">
   <!-- Hero Media Canvas - Full Width Above Header -->

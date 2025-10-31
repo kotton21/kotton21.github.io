@@ -1,7 +1,6 @@
 
 ---
 import Gallery from '../Gallery.astro';
-import Header from '../Header.astro';
 
 export interface Props {
   project: any;
@@ -14,7 +13,6 @@ const { data } = project;
 const allMedia = data.media || [];
 ---
 
-<Header currentPage="projects" logoText="Back to Projects" includeArrow={true} />
 
 <article class="project-detail gallery">
   <header class="project-header">

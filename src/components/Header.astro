@@ -93,6 +93,48 @@ const { currentPage = '', logoText, includeArrow = false } = Astro.props;
 </script>
 
 <style is:global>
+  /* Global content link colors (scoped to body copy, not header) */
+  .project-description a,
+  .text-content a {
+    color: #5688d7;
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .project-description a:hover,
+  .text-content a:hover {
+    color: #60a5fa;
+    text-decoration: underline;
+  }
+
+  .project-description a:visited,
+  .text-content a:visited {
+    color: #5d7fb5;
+  }
+
+  /* .text-content ul li,  */
+  .project-description ol li,
+  .project-description ul li 
+  { 
+    margin-bottom: 0 !important; 
+    padding-left: 1.5rem !important;
+  }
+
+  /* .text-content ul,  */
+  .project-description ol,
+  .project-description ul 
+  { 
+    margin-bottom: .2rem !important; 
+    margin-top: .2rem !important;
+  }
+
+  /* Harden header nav link colors so they are unaffected by content rules */
+  .nav-links a,
+  .nav-links a:visited {
+    color: #cccccc;
+  }
+  /* (Removed global link overrides; link styles are now scoped in TextBlock) */
+
   .persistent-header {
     position: fixed;
     top: 0;

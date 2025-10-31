@@ -204,19 +204,6 @@ This project uses Google Cloud Storage for media hosting in production while mai
 - **Flexible workflow**: Easy to sync changes back and forth
 - **Production optimized**: GCS delivery in production
 
-## 📚 Learn More
-
-- [Astro Documentation](https://docs.astro.build)
-- [MDX Documentation](https://mdxjs.com)
-- [Content Collections](https://docs.astro.build/en/guides/content-collections/)
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Submit a pull request
-
 ## 📄 License
 
 MIT License - feel free to use this for your own portfolio!

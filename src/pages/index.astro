@@ -5,6 +5,7 @@ import FeaturedProjectCard from '../components/FeaturedProjectCard.astro';
 import Header from '../components/Header.astro';
 import HeroCarousel from '../components/HeroCarousel.astro';
 import { siteConfig } from '../config/site';
+import Story from '../content/story-draft1.mdx';
 
 const projects = await getCollection('projects');
 
@@ -12,7 +13,7 @@ const projects = await getCollection('projects');
 const featuredProjects = projects
   .filter(project => project.data.featured === true)
   .sort((a, b) => a.data.sortOrder - b.data.sortOrder)
-  .slice(0, 6);
+  .slice(0, 3);
 
 
 // Hero carousel media
@@ -44,15 +45,15 @@ const heroMedia = [
 
 		<main class="main-content">
 			<!-- Hero Section -->
-			<section class="hero">
-				<div class="hero-content">
+			<!-- <section class="hero">
+				<div class="hero-content"> -->
 					<!-- <h1 class="hero-name">{siteConfig.owner}</h1> -->
-					<p class="hero-title">{siteConfig.tagline}</p>
-					<p class="hero-description">
+					<!-- <p class="hero-title">{siteConfig.tagline}</p> -->
+					<!-- <p class="hero-description">
 						{siteConfig.description}
-					</p>
-				</div>
-			</section>
+					</p> -->
+				<!-- </div>
+			</section> -->
 
 			<!-- Featured Projects -->
 			<!-- <section class="featured-projects">
@@ -63,6 +64,11 @@ const heroMedia = [
 					))}
 				</div>
 			</section> -->
+
+			<!-- Example MDX Content -->
+			<section class="project-description">
+				<Story />
+			</section>
 
 			<!-- 6 Most Recent Featured Projects -->
 			<section class="project-section">
@@ -81,11 +87,20 @@ const heroMedia = [
 
 			<!-- Talk to Me Section -->
 			<section id="contact" class="contact-section">
-				<h2>Talk to Me</h2>
-				<p class="contact-description">
-					Interested in collaborating or just want to chat about a project? 
-					I'm always excited to connect with fellow makers and creators.
-				</p>
+				<div class="contact-header">
+					<img 
+						src="/assets/site/251009_MakerCamp28839_SOCIAL.jpeg" 
+						alt="Maker Camp" 
+						class="contact-image"
+					/>
+					<div class="contact-text">
+						<h2>Talk to Me</h2>
+						<p class="contact-description">
+							Interested in collaborating or just want to chat about a project? 
+							I'm always excited to connect with fellow makers and creators.
+						</p>
+					</div>
+				</div>
 				<div class="contact-links">
 					<a href={`mailto:${siteConfig.contact.email}`} class="contact-link email">
 						<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -116,6 +131,9 @@ const heroMedia = [
 					</a>
 				</div>
 			</section>
+
+			
+			
 		</main>
 		
 		<style>
@@ -144,7 +162,7 @@ const heroMedia = [
 			.main-content {
 				max-width: 1200px;
 				margin: 0 auto;
-				padding: 2rem 2rem 0 2rem;
+				padding: 0 4rem;
 				position: relative;
 				z-index: 1;
 			}
@@ -222,25 +240,44 @@ const heroMedia = [
 			/* Contact Section */
 			.contact-section {
 				margin-bottom: var(--section-spacing);
-				text-align: center;
-				padding: 3rem 0;
+				padding: 3rem;
 				background: #1a1a1a;
 				border-radius: 1rem;
+			}
+
+			.contact-header {
+				display: flex;
+				align-items: flex-start;
+				gap: 2rem;
+				padding: 0 4rem;
+				margin-bottom: 2rem;
+			}
+
+			.contact-image {
+				flex-shrink: 0;
+				width: 120px;
+				height: auto;
+				border-radius: 0.5rem;
+				object-fit: cover;
+			}
+
+			.contact-text {
+				flex: 1;
+				padding: 0 2rem;
+				text-align: left;
 			}
 
 			.contact-section h2 {
 				font-size: 2.5rem;
 				font-weight: 700;
 				margin-bottom: 1rem;
+				text-align: left;
 			}
 
 			.contact-description {
 				font-size: 1.1rem;
 				color: #cccccc;
-				margin-bottom: 2rem;
-				max-width: 500px;
-				margin-left: auto;
-				margin-right: auto;
+				margin-bottom: 0;
 			}
 
 			.contact-links {
@@ -302,8 +339,15 @@ const heroMedia = [
 			}
 
 			/* Section Headers */
-			h2 {
+			/* h2 {
 				color: #ffffff;
+			} */
+
+			/* Example MDX Section */
+			.project-description {
+				margin-bottom: var(--section-spacing);
+				padding: 0 0;
+				/* border-top: 1px solid #333; */
 			}
 			
 			@media (max-width: 768px) {
@@ -329,6 +373,25 @@ const heroMedia = [
 
 				.hero-description {
 					font-size: 1.1rem;
+				}
+
+				.contact-section {
+					padding: 2rem 1.5rem;
+				}
+
+				.contact-header {
+					flex-direction: column;
+					align-items: center;
+					text-align: center;
+				}
+
+				.contact-text {
+					text-align: center;
+					padding: 0;
+				}
+
+				.contact-section h2 {
+					text-align: center;
 				}
 
 				.contact-links {

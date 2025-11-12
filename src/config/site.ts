@@ -23,6 +23,7 @@ export const siteConfig = {
   
   // Navigation
   navigation: [
+    { name: "About Me", href: "/projects/aboutme" },
     { name: "All Projects", href: "/projects" },
     { 
       name: "Resume", 

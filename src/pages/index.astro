@@ -114,17 +114,20 @@ const heroMedia = [
 
 			<!-- Talk to Me Section -->
 			<section id="contact" class="contact-section">
-				<div class="contact-header">
+			<div class="contact-header">
+				<a href="/projects/aboutme" class="contact-image-link">
 					<img 
 						src={contactImageSrc}
 						alt="Maker Camp" 
 						class="contact-image"
 					/>
+				</a>
 					<div class="contact-text">
 						<h2>Reach Out!</h2>
 						<p class="contact-description">
 							Interested in collaborating, hiring, or just want to chat about a project? 
-							I'm always excited to connect with fellow makers and creators.
+							I'm always excited to connect with fellow makers and creators. Learn more about me
+							<a href="/projects/aboutme">here</a>.
 						</p>
 					</div>
 				</div>
@@ -280,12 +283,25 @@ const heroMedia = [
 				margin-bottom: 2rem;
 			}
 
-			.contact-image {
+			.contact-image-link {
 				flex-shrink: 0;
+				display: inline-block;
+				transition: transform 0.2s ease, box-shadow 0.2s ease;
+				text-decoration: none;
+				border-radius: 0.5rem;
+			}
+
+			.contact-image-link:hover {
+				transform: translateY(-4px);
+				box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+			}
+
+			.contact-image {
 				width: 120px;
 				height: auto;
 				border-radius: 0.5rem;
 				object-fit: cover;
+				display: block;
 			}
 
 			.contact-text {
